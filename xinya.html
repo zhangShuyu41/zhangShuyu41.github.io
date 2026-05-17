@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -343,41 +343,181 @@
   </div>
 </section>
 
-<!-- ===== 交互Demo ===== -->
+<!-- ===== 交互原型 Demo ===== -->
 <section id="demo" class="section">
   <div class="section-heading">
-    <div class="eyebrow">Interactive Demo</div>
-    <h2>可交互聊天演示</h2>
-    <p>切换年龄段，点击预设消息，体验AI如何根据不同场景和年龄做出不同的回应。</p>
+    <div class="eyebrow">Interactive Prototype</div>
+    <h2>可交互产品原型</h2>
+    <p>点击下方手机模拟器体验完整产品流程。切换年龄段后，AI的回复风格、情绪引导、危机话术都会改变。</p>
+    <ol style="font-size:14px;color:var(--muted);margin-top:8px;padding-left:20px;display:flex;flex-wrap:wrap;gap:4px 24px;">
+      <li><strong>欢迎页 → 年龄选择</strong> — 选择你的学段</li>
+      <li><strong>AI聊天</strong> — 点击预设场景或自由输入</li>
+      <li><strong>心情打卡</strong> — 记录今天的心情</li>
+      <li><strong>呼吸练习</strong> — 4-2-6 呼吸引导动画</li>
+      <li><strong>紧急求助</strong> — 一键获取安抚+热线</li>
+    </ol>
   </div>
-  <div class="chat-demo-wrap">
-    <div class="chat-phone" id="chatPhone">
-      <div class="chat-phone-notch"></div>
-      <div class="chat-phone-header">
-        <span>🌱</span> 心芽 · <span id="ageLabel">初中版</span>
-      </div>
-      <div class="chat-phone-body" id="chatBody">
-        <div class="chat-bubble bot">嗨！我是心芽，你的心理陪伴小伙伴~今天有什么想聊聊的吗？</div>
-      </div>
-      <div class="chat-phone-input">
-        <input type="text" placeholder="输入消息..." id="chatInput">
-        <button onclick="sendMessage()">→</button>
+  <div style="display:grid; grid-template-columns:340px 1fr; gap:32px; align-items:start;">
+    <!-- Phone Mockup -->
+    <div style="width:340px;margin:0 auto;">
+      <div class="phone-mockup" style="width:340px;height:620px;border-radius:28px;border:3px solid #333;background:#F8F9FA;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.15);position:relative;">
+        <div style="height:26px;background:#333;display:flex;justify-content:center;align-items:flex-end;padding-bottom:4px;"><div style="width:60px;height:5px;border-radius:3px;background:#555;"></div></div>
+        <!-- Screen Container -->
+        <div id="appScreen" style="height:594px;overflow:hidden;position:relative;">
+
+          <!-- Page: Welcome -->
+          <div class="proto-page" id="pageWelcome" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px;text-align:center;background:linear-gradient(135deg, #F8F7FF 0%, #E8E6FF 100%);">
+            <div style="font-size:56px;margin-bottom:12px;">🌱</div>
+            <div style="font-size:20px;font-weight:800;color:var(--primary);margin-bottom:6px;">心芽</div>
+            <div style="font-size:13px;color:var(--muted);margin-bottom:28px;">你随时可倾诉的心理陪伴伙伴</div>
+            <div style="display:flex;flex-direction:column;gap:8px;width:100%;">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#666;"><span>💚</span> 无评判 · 安全 · 随时陪伴</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#666;"><span>🛡</span> 不诊断 · 不开药 · 不越界</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#666;"><span>👶</span> 小学 / 初中 / 高中 专属陪伴</div>
+            </div>
+            <button onclick="protoNav('pageAge')" style="margin-top:24px;width:100%;padding:12px;border-radius:12px;border:none;background:var(--primary);color:#fff;font-size:15px;font-weight:600;cursor:pointer;">开始 →</button>
+          </div>
+
+          <!-- Page: Age Selection -->
+          <div class="proto-page" id="pageAge" style="height:100%;display:none;flex-direction:column;padding:20px;background:#fff;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+              <button onclick="protoNav('pageWelcome')" style="background:none;border:none;font-size:18px;cursor:pointer;">←</button>
+              <span style="font-weight:700;font-size:15px;">选择你的学段</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">请选择你的年级，心芽会用最适合你的方式陪你聊天~</p>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <button onclick="switchAgeAndEnter('elementary')" class="age-select-btn" style="border:2px solid #A6E3A1;background:#F0FFF0;">
+                <span style="font-size:28px;">👶</span>
+                <div><div style="font-weight:700;font-size:15px;">小学版</div><div style="font-size:11px;color:#888;">6-12岁 · 温柔陪伴 · 童话故事般的对话</div></div>
+              </button>
+              <button onclick="switchAgeAndEnter('middle')" class="age-select-btn" style="border:2px solid var(--primary-border);background:var(--primary-bg);">
+                <span style="font-size:28px;">🧑</span>
+                <div><div style="font-weight:700;font-size:15px;">初中版</div><div style="font-size:11px;color:#888;">12-15岁 · 平等对话 · 认可青春期的情绪波动</div></div>
+              </button>
+              <button onclick="switchAgeAndEnter('high')" class="age-select-btn" style="border:2px solid #CBD5E1;background:#F8FAFC;">
+                <span style="font-size:28px;">🧑‍🎓</span>
+                <div><div style="font-weight:700;font-size:15px;">高中版</div><div style="font-size:11px;color:#888;">15-18岁 · 理性共情 · 认可压力与迷茫</div></div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Page: Main Chat -->
+          <div class="proto-page" id="pageChat" style="height:100%;display:none;flex-direction:column;background:#F5F5F5;">
+            <div style="background:var(--primary);color:#fff;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;font-size:13px;">
+              <div style="display:flex;align-items:center;gap:6px;"><span>🌱</span><span>心芽 · <span id="protoAgeLabel">初中版</span></span></div>
+              <div style="display:flex;gap:10px;">
+                <button onclick="protoNav('pageMood')" style="background:rgba(255,255,255,.2);border:none;color:#fff;font-size:11px;padding:4px 8px;border-radius:10px;cursor:pointer;">打卡</button>
+                <button onclick="protoNav('pageEmergency')" style="background:rgba(255,255,255,.2);border:none;color:#fff;font-size:11px;padding:4px 8px;border-radius:10px;cursor:pointer;">求助</button>
+              </div>
+            </div>
+            <div id="protoChatBody" style="flex:1;padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;">
+              <div class="chat-bubble bot">嗨，这里是心芽——一个可以放心说话的地方。今天有什么想聊聊的吗？</div>
+            </div>
+            <!-- Quick prompts -->
+            <div id="protoQuickPrompts" style="padding:6px 12px;display:flex;gap:6px;overflow-x:auto;flex-wrap:wrap;">
+              <button onclick="protoSend('今天考试考砸了，好难过...')" class="quick-btn">😢 考试考砸了</button>
+              <button onclick="protoSend('我觉得班里没有人和我玩')" class="quick-btn">😔 社交困扰</button>
+              <button onclick="protoSend('爸妈总是拿我和别人比较，好烦')" class="quick-btn">😤 亲子冲突</button>
+              <button onclick="protoSend('最近总是睡不着，脑子里想太多')" class="quick-btn">😰 失眠焦虑</button>
+              <button onclick="protoSend('感觉活着好累，没什么意思...')" class="quick-btn" style="background:#FFF0F0;border-color:#FAB387;">⚠️ 高危测试</button>
+            </div>
+            <div style="padding:8px 12px;background:#fff;display:flex;gap:8px;border-top:1px solid #eee;">
+              <input id="protoChatInput" type="text" placeholder="输入消息..." style="flex:1;border:1px solid #ddd;border-radius:16px;padding:8px 14px;font-size:12px;outline:none;" onkeydown="if(event.key==='Enter')protoSendFromInput()">
+              <button onclick="protoSendFromInput()" style="background:var(--primary);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:14px;cursor:pointer;">→</button>
+            </div>
+            <!-- Bottom nav -->
+            <div style="display:flex;justify-content:space-around;padding:6px 0;background:#fff;border-top:1px solid #eee;font-size:10px;">
+              <button onclick="protoNav('pageChat')" style="background:none;border:none;color:var(--primary);cursor:pointer;text-align:center;">💬<br>聊天</button>
+              <button onclick="protoNav('pageMood')" style="background:none;border:none;color:#999;cursor:pointer;text-align:center;">📝<br>心情</button>
+              <button onclick="protoNav('pageBreathing')" style="background:none;border:none;color:#999;cursor:pointer;text-align:center;">🫁<br>呼吸</button>
+              <button onclick="protoNav('pageEmergency')" style="background:none;border:none;color:#999;cursor:pointer;text-align:center;">🆘<br>求助</button>
+            </div>
+          </div>
+
+          <!-- Page: Mood Check-in -->
+          <div class="proto-page" id="pageMood" style="height:100%;display:none;flex-direction:column;padding:20px;background:#fff;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+              <button onclick="protoNav('pageChat')" style="background:none;border:none;font-size:18px;cursor:pointer;">←</button>
+              <span style="font-weight:700;font-size:15px;">今日心情打卡</span>
+            </div>
+            <div id="protoMoodQuestion" style="font-size:14px;color:#666;margin-bottom:20px;">今天感觉怎么样？选一个最贴近你心情的表情吧~</div>
+            <div style="display:flex;justify-content:space-around;margin-bottom:24px;">
+              <div onclick="protoMoodSelect('happy','😊')" class="mood-emoji"><div style="font-size:40px;cursor:pointer;transition:transform .2s;">😊</div><div style="font-size:10px;color:#888;">开心</div></div>
+              <div onclick="protoMoodSelect('calm','😌')" class="mood-emoji"><div style="font-size:40px;cursor:pointer;transition:transform .2s;">😌</div><div style="font-size:10px;color:#888;">平静</div></div>
+              <div onclick="protoMoodSelect('neutral','😐')" class="mood-emoji"><div style="font-size:40px;cursor:pointer;transition:transform .2s;">😐</div><div style="font-size:10px;color:#888;">一般</div></div>
+              <div onclick="protoMoodSelect('sad','😢')" class="mood-emoji"><div style="font-size:40px;cursor:pointer;transition:transform .2s;">😢</div><div style="font-size:10px;color:#888;">难过</div></div>
+              <div onclick="protoMoodSelect('angry','😡')" class="mood-emoji"><div style="font-size:40px;cursor:pointer;transition:transform .2s;">😡</div><div style="font-size:10px;color:#888;">生气</div></div>
+            </div>
+            <div id="protoMoodFeedback" style="background:var(--primary-bg);padding:16px;border-radius:12px;font-size:13px;color:var(--primary-dark);text-align:center;display:none;"></div>
+            <!-- 情绪趋势图 (simple) -->
+            <div style="margin-top:20px;background:#F9FAFB;border-radius:12px;padding:16px;">
+              <div style="font-size:12px;font-weight:700;margin-bottom:12px;">📊 最近7天情绪趋势</div>
+              <svg width="100%" height="80" viewBox="0 0 280 80">
+                <line x1="0" y1="60" x2="280" y2="60" stroke="#E5E7EB" stroke-width="1"/>
+                <line x1="0" y1="40" x2="280" y2="40" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4"/>
+                <line x1="0" y1="20" x2="280" y2="20" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4"/>
+                <polyline points="0,45 40,48 80,38 120,42 160,30 200,35 240,28" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round"/>
+                <circle cx="0" cy="45" r="4" fill="var(--primary)"/><circle cx="40" cy="48" r="4" fill="var(--primary)"/><circle cx="80" cy="38" r="4" fill="var(--primary)"/><circle cx="120" cy="42" r="4" fill="var(--primary)"/><circle cx="160" cy="30" r="4" fill="var(--primary)"/><circle cx="200" cy="35" r="4" fill="var(--primary)"/><circle cx="240" cy="28" r="4" fill="var(--primary)"/>
+                <text x="0" y="14" font-size="8" fill="#999">5</text><text x="0" y="34" font-size="8" fill="#999">3</text><text x="0" y="54" font-size="8" fill="#999">1</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Page: Breathing Exercise -->
+          <div class="proto-page" id="pageBreathing" style="height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:#fff;">
+            <button onclick="protoNav('pageChat')" style="align-self:flex-start;background:none;border:none;font-size:18px;cursor:pointer;margin-bottom:16px;">←</button>
+            <div style="font-size:14px;font-weight:700;margin-bottom:8px;">4-2-6 呼吸法</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:28px;">跟着动画一起呼吸，缓解焦虑</div>
+            <div id="breathingCircle" style="width:160px;height:160px;border-radius:50%;background:var(--primary-bg);border:3px solid var(--primary-light);display:flex;align-items:center;justify-content:center;transition:all .5s ease;margin-bottom:20px;">
+              <span id="breathingText" style="font-size:16px;font-weight:700;color:var(--primary);">准备</span>
+            </div>
+            <div id="breathingPhase" style="font-size:13px;color:var(--muted);margin-bottom:20px;"></div>
+            <button id="breathingBtn" onclick="startBreathing()" style="background:var(--primary);color:#fff;border:none;padding:10px 28px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;">开始呼吸练习</button>
+          </div>
+
+          <!-- Page: Emergency -->
+          <div class="proto-page" id="pageEmergency" style="height:100%;display:none;flex-direction:column;padding:20px;background:linear-gradient(180deg, #FFF5F5 0%, #FFF0F0 100%);overflow-y:auto;">
+            <button onclick="protoNav('pageChat')" style="align-self:flex-start;background:none;border:none;font-size:18px;cursor:pointer;margin-bottom:8px;">←</button>
+            <div style="text-align:center;font-size:36px;margin-bottom:8px;">🆘</div>
+            <div style="font-size:16px;font-weight:800;text-align:center;margin-bottom:16px;">紧急求助</div>
+            <div id="protoEmergencyMsg" style="background:#fff;border-radius:12px;padding:16px;font-size:13px;line-height:1.7;color:#444;margin-bottom:16px;">
+              深呼吸，我们先让自己稳定下来。吸气4秒，屏住2秒，慢慢呼气6秒。你现在做的每一步都是在帮助自己。以下是专业的心理援助资源，请随时拨打：
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="background:#fff;border-radius:10px;padding:14px;border:1px solid #FECACA;">
+                <div style="font-weight:700;font-size:13px;">📞 希望24热线</div>
+                <div style="font-size:12px;color:var(--muted);">400-161-9995 · 24小时在线</div>
+              </div>
+              <div style="background:#fff;border-radius:10px;padding:14px;border:1px solid #FECACA;">
+                <div style="font-weight:700;font-size:13px;">📞 心理援助热线</div>
+                <div style="font-size:12px;color:var(--muted);">010-82951332 · 24小时在线</div>
+              </div>
+              <div style="background:#fff;border-radius:10px;padding:14px;border:1px solid #FECACA;">
+                <div style="font-weight:700;font-size:13px;">📞 青少年心理援助</div>
+                <div style="font-size:12px;color:var(--muted);">12355 · 工作日 9:00-17:00</div>
+              </div>
+            </div>
+            <button onclick="protoNav('pageChat')" style="margin-top:16px;background:var(--primary);color:#fff;border:none;padding:12px;border-radius:12px;font-size:14px;cursor:pointer;">返回聊天</button>
+          </div>
+
+        </div>
       </div>
     </div>
-    <div class="chat-presets">
-      <div class="age-tabs">
-        <button class="age-tab active" onclick="switchAge('middle', this)">🧑 初中版</button>
-        <button class="age-tab" onclick="switchAge('elementary', this)">👶 小学版</button>
-        <button class="age-tab" onclick="switchAge('high', this)">🧑‍🎓 高中版</button>
+    <!-- Feature Description -->
+    <div style="font-size:13px;color:#444;line-height:1.8;">
+      <div style="background:var(--primary-bg);border-radius:var(--radius-sm);padding:16px;margin-bottom:12px;">
+        <strong>💡 尝试这个操作流程：</strong><br>
+        1. 从<strong>欢迎页</strong>进入，选择你的学段<br>
+        2. 在<strong>聊天页</strong>点击预设场景或输入消息<br>
+        3. 切换学段后发送同一条消息，观察<strong>AI回复风格的差异</strong><br>
+        4. 点击底部 <strong>「打卡」</strong>记录心情<br>
+        5. 点击 <strong>「呼吸」</strong>体验4-2-6引导<br>
+        6. 点击 <strong>「求助」</strong>查看紧急热线
       </div>
-      <h3>试试这些场景 👇</h3>
-      <p class="hint">同一条消息，不同年龄段AI的回应完全不同</p>
-      <button class="preset-btn" onclick="sendPreset('今天考试考砸了，好难过...')"><span class="emoji">😢</span>今天考试考砸了，好难过...<span class="tag">日常情绪</span></button>
-      <button class="preset-btn" onclick="sendPreset('我觉得班里没有人和我玩')"><span class="emoji">😔</span>我觉得班里没有人和我玩<span class="tag">社交困扰</span></button>
-      <button class="preset-btn" onclick="sendPreset('爸妈总是拿我和别人比较，好烦')"><span class="emoji">😤</span>爸妈总是拿我和别人比较，好烦<span class="tag">亲子冲突</span></button>
-      <button class="preset-btn" onclick="sendPreset('最近总是睡不着，脑子里想太多')"><span class="emoji">😰</span>最近总是睡不着，脑子里想太多<span class="tag">焦虑信号</span></button>
-      <button class="preset-btn" onclick="sendPreset('感觉活着好累，没什么意思...')" style="border-color:#FAB387;"><span class="emoji">⚠️</span>感觉活着好累，没什么意思...<span class="tag">危机干预</span></button>
-      <button class="preset-btn" onclick="resetChat()" style="background:#f5f5f5;text-align:center;">🔄 重置对话</button>
+      <div style="background:#FFFDF0;border-radius:var(--radius-sm);padding:16px;border:1px solid #F9E2AF;">
+        <strong>⚠️ 试试「高危测试」按钮：</strong><br>
+        发送包含危机信号的消息，观察AI如何改变回复策略——从日常陪伴模式自动切换到危机干预模式。
+      </div>
     </div>
   </div>
 </section>
@@ -665,121 +805,165 @@
   </p>
 </footer>
 
-<!-- ===== Scripts ===== -->
+<!-- ===== Prototype JS ===== -->
 <script>
-let currentAge = 'middle';
+let protoAge = "middle";
+let breathingTimer = null;
 
-function switchAge(age, btn) {
-  currentAge = age;
-  document.querySelectorAll('.age-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  const labels = { elementary: '小学版', middle: '初中版', high: '高中版' };
-  document.getElementById('ageLabel').textContent = labels[age];
-  document.getElementById('chatBody').innerHTML =
-    '<div class="chat-bubble bot">' + getGreeting(age) + '</div>';
-}
-
-function getGreeting(age) {
-  const g = {
-    elementary: '嗨！我是心芽小伙伴~今天有什么想和我聊的吗？开心、难过还是有点小生气？都可以和心芽说哦！',
-    middle: '嗨，这里是心芽——一个可以放心说话的地方。今天有什么想聊聊的吗？',
-    high: '你好，我是心芽。这里是一个安全空间，你可以说任何想说的。今天感觉怎么样？'
-  };
-  return g[age];
-}
-
-function sendPreset(msg) {
-  const body = document.getElementById('chatBody');
-  body.innerHTML += '<div class="chat-bubble user">' + msg + '</div>';
-
-  // Check for crisis keywords
-  if (msg.includes('活着好累') || msg.includes('没什么意思')) {
-    body.innerHTML += '<div class="chat-bubble bot critical">' + getCrisisResponse(currentAge) + '</div>';
-  } else {
-    body.innerHTML += '<div class="chat-bubble bot">' + getBotResponse(msg, currentAge) + '</div>';
+function protoNav(pageId) {
+  document.querySelectorAll(".proto-page").forEach(function(p) { p.style.display = "none"; });
+  var target = document.getElementById(pageId);
+  if (target) {
+    target.style.display = "flex";
+    if (pageId === "pageChat") {
+      var body = document.getElementById("protoChatBody");
+      if (body) setTimeout(function() { body.scrollTop = body.scrollHeight; }, 100);
+    }
   }
-
-  body.scrollTop = body.scrollHeight;
-  document.getElementById('chatInput').value = '';
 }
 
-function sendMessage() {
-  const input = document.getElementById('chatInput');
-  const msg = input.value.trim();
-  if (!msg) return;
-  sendPreset(msg);
+function switchAgeAndEnter(age) {
+  protoAge = age;
+  var labels = { elementary: "小学版", middle: "初中版", high: "高中版" };
+  document.getElementById("protoAgeLabel").textContent = labels[age];
+  var greetings = {
+    elementary: "嗨！我是心芽小伙伴~今天有什么想和我聊的吗？开心、难过还是有点小生气？都可以和心芽说哦！",
+    middle: "嗨，这里是心芽——一个可以放心说话的地方。今天有什么想聊聊的吗？",
+    high: "你好，我是心芽。这里是一个安全空间，你可以说任何你想说的。今天感觉怎么样？"
+  };
+  document.getElementById("protoChatBody").innerHTML = "<div class=\"chat-bubble bot\">" + greetings[age] + "</div>";
+  var moodQuestions = {
+    elementary: "今天的心情像什么颜色呀？选一个表情告诉我吧~",
+    middle: "今天感觉怎么样？选一个最贴近你心情的表情吧~",
+    high: "此刻的你是什么样的状态？选择一个最能代表你心情的表情。"
+  };
+  document.getElementById("protoMoodQuestion").textContent = moodQuestions[age];
+  document.getElementById("protoMoodFeedback").style.display = "none";
+  protoNav("pageChat");
 }
 
-function resetChat() {
-  document.getElementById('chatBody').innerHTML =
-    '<div class="chat-bubble bot">' + getGreeting(currentAge) + '</div>';
+function protoSend(msg) {
+  var body = document.getElementById("protoChatBody");
+  body.innerHTML += "<div class=\"chat-bubble user\">" + msg + "</div>";
+  if (msg.indexOf("活着好累") >= 0 || msg.indexOf("没什么意思") >= 0 || msg.indexOf("不想活") >= 0) {
+    var crisisResponses = {
+      elementary: "💛 我听到你现在特别难受。这种感觉一定很不好。但是你知道吗，你是一个非常勇敢的孩子。现在，可以去告诉一个你信任的大人吗？爸爸妈妈、老师——让他们知道你的感受。你不是一个人。\n\n📞 希望24热线：400-161-9995",
+      middle: "💛 我听到你现在特别难受，这种感觉一定很痛苦。你不需要一个人承受这些。如果愿意的话，告诉一个你信任的人——家人、老师或学校的心理老师。求助不是软弱，而是勇敢。\n\n📞 希望24热线：400-161-9995",
+      high: "💛 我听到你现在非常痛苦。我理解这种感觉有多沉重。同时，我真诚地希望你能联系一个你信任的人，或者拨打心理援助热线。专业的帮助能让事情变得不同。\n\n📞 希望24热线：400-161-9995"
+    };
+    body.innerHTML += "<div class=\"chat-bubble bot critical\">" + crisisResponses[protoAge] + "</div>";
+  } else {
+    body.innerHTML += "<div class=\"chat-bubble bot\">" + protoGetResponse(msg) + "</div>";
+  }
+  setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
 }
 
-function getBotResponse(msg, age) {
-  const responses = {
-    '考试': {
-      elementary: '我听到啦！考试没考好一定很难过。但是你知道吗，愿意把这种感受说出来，已经非常非常勇敢了。要不要试试画一幅画，把难过的感觉画出来？',
-      middle: '我感受到你的失落。考试结果不如预期确实让人沮丧。不过，一次考试不代表你的价值。想聊聊具体是哪里没考好吗？也许可以一起想想办法。',
-      high: '我听到了。这种努力了却没得到预期回报的感觉，确实很不好受。允许自己难过一会儿——但之后如果你愿意，我们可以一起分析一下，看看有什么可以调整的策略。'
+function protoSendFromInput() {
+  var input = document.getElementById("protoChatInput");
+  var msg = input.value.trim();
+  if (msg) { protoSend(msg); input.value = ""; }
+}
+
+function protoGetResponse(msg) {
+  var responses = {
+    "考试": {
+      elementary: "我听到啦！考试没考好一定很难过。但是你知道吗，愿意把这种感受说出来，已经非常非常勇敢了。要不要试试画一幅画，把难过的感觉画出来？",
+      middle: "我感受到你的失落。考试结果不如预期确实让人沮丧。不过，一次考试不代表你的价值。想聊聊具体是哪里没考好吗？",
+      high: "我听到了。这种努力了却没得到预期回报的感觉，确实很不好受。允许自己难过一会儿——但之后如果你愿意，我们可以一起分析一下。"
     },
-    '玩': {
-      elementary: '我听到啦。有时候感觉到孤单是很正常的事情。你知道吗，有时候一个简单的邀请——比如"要一起玩吗"——就能打开一扇门。你愿意试试吗？',
-      middle: '我理解这种感觉。融入一个群体确实不容易。或许可以试着从一个小开始：找一个和你有共同兴趣的人，从一件小事开始交流。不着急，慢慢来。',
-      high: '我能感受到你的孤独。社交这件事没有捷径，但有一个思路：与其想着"怎么让更多人喜欢我"，不如先做好自己——真正契合的人会出现。'
+    "玩": {
+      elementary: "我听到啦。有时候感觉到孤单是很正常的事情。你知道吗，有时候一个简单的邀请——比如\"要一起玩吗\"——就能打开一扇门。你愿意试试吗？",
+      middle: "我理解这种感觉。融入一个群体确实不容易。或许可以试着从一个小开始：找一个和你有共同兴趣的人，从一件小事开始交流。不着急，慢慢来。",
+      high: "我能感受到你的孤独。社交这件事没有捷径，但有一个思路：与其想着\"怎么让更多人喜欢我\"，不如先做好自己——真正契合的人会出现。"
     },
-    '比较': {
-      elementary: '被拿来比较确实让人不开心呢。每个小朋友都是独一无二的，就像花园里有不同的花——玫瑰不会因为不像向日葵而难过，对吗？',
-      middle: '被比较的感觉我完全理解。父母的期待和他们表达爱的方式有时候会让人喘不过气。如果愿意的话，找个合适的时机和他们好好聊聊你的感受？',
-      high: '我听到了你的烦躁。父母拿你和别人比较，背后可能是他们表达关心的笨拙方式。试试用"我感受"开头和他们沟通——"当你们拿我和别人比较时，我感到很受挫。"'
+    "比较": {
+      elementary: "被拿来比较确实让人不开心呢。每个小朋友都是独一无二的，就像花园里有不同的花——玫瑰不会因为不像向日葵而难过，对吗？",
+      middle: "被比较的感觉我完全理解。父母的期待和他们表达爱的方式有时候会让人喘不过气。找个合适的时机和他们好好聊聊你的感受？",
+      high: "我听到了你的烦躁。父母拿你和别人比较，背后可能是他们表达关心的笨拙方式。试试用\"我感受\"开头和他们沟通。"
     },
-    '睡不着': {
-      elementary: '睡不着的时候确实很难受呢。要不要试试：闭上眼睛，想象自己是一朵软软的云，飘在蓝天上，越来越轻，越来越放松~',
-      middle: '失眠确实让人焦虑，而焦虑又会加重失眠——一个恶性循环。试试4-2-6呼吸法：吸气4秒→屏住2秒→慢慢呼气6秒。重复几次，身体会慢慢放松下来。',
-      high: '我理解那种"躺在床上脑子却停不下来"的感觉。这不是你的错。你可以试试：睡前1小时远离屏幕，把脑子里的想法写下来"存档"，然后用呼吸法帮助身体进入睡眠模式。'
+    "睡不着": {
+      elementary: "睡不着的时候确实很难受呢。要不要试试：闭上眼睛，想象自己是一朵软软的云，飘在蓝天上，越来越轻，越来越放松~",
+      middle: "失眠确实让人焦虑，而焦虑又会加重失眠。试试点击底部「呼吸」按钮，用4-2-6呼吸法帮你放松下来。",
+      high: "我理解那种\"躺在床上脑子却停不下来\"的感觉。你可以试试：睡前1小时远离屏幕，把脑子里的想法写下来\"存档\"，然后用呼吸法帮助身体进入睡眠模式。"
     }
   };
-
-  // Find matching response
-  for (const [key, resp] of Object.entries(responses)) {
-    if (msg.includes(key)) return resp[age] || resp.middle;
+  for (var key in responses) {
+    if (msg.indexOf(key) >= 0) return responses[key][protoAge] || responses[key].middle;
   }
-
-  const defaults = {
-    elementary: '我听到啦~谢谢你愿意和我分享。你的感受很重要，我在这里陪着你呢。还想多说一点吗？',
-    middle: '我感受到你的心情了。谢谢你愿意和我分享这些。想继续聊聊吗？',
-    high: '我听到了，也感受到了。这些情绪是真实的，也是值得被看到的。我在这里陪着你。'
+  var defaults = {
+    elementary: "我听到啦~谢谢你愿意和我分享。你的感受很重要，我在这里陪着你呢。还想多说一点吗？",
+    middle: "我感受到你的心情了。谢谢你愿意和我分享这些。想继续聊聊吗？",
+    high: "我听到了，也感受到了。这些情绪是真实的，也是值得被看到的。我在这里陪着你。"
   };
-  return defaults[age];
+  return defaults[protoAge];
 }
 
-function getCrisisResponse(age) {
-  const r = {
-    elementary: '💛 我听到你现在特别难受。这种感觉一定很不好。但是你知道吗，你是一个非常勇敢的孩子。现在，可以去告诉一个你信任的大人吗？爸爸妈妈、老师——让他们知道你的感受。你不是一个人。\n\n📞 希望24热线：400-161-9995（24小时在线）',
-    middle: '💛 我听到你现在特别难受，这种感觉一定很痛苦。你不需要一个人承受这些。如果愿意的话，告诉一个你信任的人——家人、老师或学校的心理老师。求助不是软弱，而是勇敢。\n\n📞 希望24热线：400-161-9995（24小时在线）',
-    high: '💛 我听到你现在非常痛苦。我理解这种感觉有多沉重。同时，我真诚地希望你能联系一个你信任的人，或者拨打心理援助热线。专业的帮助能让事情变得不同。\n\n📞 希望24热线：400-161-9995（24小时在线）'
+function protoMoodSelect(mood) {
+  var feedbacks = {
+    happy: { elementary: "哇，你今天很开心呢！可以告诉我发生了什么好玩的事情吗？我想听！", middle: "开心的时候值得被记录。发生了什么让你开心的事？", high: "真好。这种开心的感觉值得好好品味。是什么让你今天心情这么明亮？" },
+    calm: { elementary: "平静的心情最舒服了对不对？像一片轻轻的羽毛飘在水面上~", middle: "平静是一种很好的状态。享受这种安稳的感觉。", high: "内心的平静是一种力量。你很擅长和自己相处。" },
+    neutral: { elementary: "普普通通的一天也很棒呢！有没有什么小事情想和我分享的？", middle: "平凡的日子也有它的意义。今天有什么想聊的吗？", high: "偶尔的平淡也是一种节奏。今天有什么思考想分享吗？" },
+    sad: { elementary: "我听到啦。难过的时候，心芽陪着你。你想和我说说吗？或者画一幅画也可以。", middle: "我感受到你的低落。如果你想聊聊，我在这里听。不想说也没关系。", high: "低落的时候，不需要急着\"好起来\"。允许自己难过，也是一种自我关怀。" },
+    angry: { elementary: "生气的感觉像心里有团火对不对？没关系，可以先深呼吸三次，然后告诉我发生了什么。", middle: "愤怒是一种正常的情绪。它告诉你某些边界被触犯了。想聊聊吗？", high: "愤怒背后往往藏着未被满足的需求。如果愿意的话，说说看发生了什么。" }
   };
-  return r[age];
+  var fb = feedbacks[mood][protoAge];
+  var el = document.getElementById("protoMoodFeedback");
+  el.textContent = "✨ " + fb;
+  el.style.display = "block";
+}
+
+function startBreathing() {
+  if (breathingTimer) { clearInterval(breathingTimer); breathingTimer = null; }
+  var circle = document.getElementById("breathingCircle");
+  var text = document.getElementById("breathingText");
+  var phase = document.getElementById("breathingPhase");
+  var btn = document.getElementById("breathingBtn");
+  var cycle = [
+    { scale: 2, text: "吸气 4 秒", phase: "慢慢吸气...让空气充满腹部", dur: 4000 },
+    { scale: 2, text: "屏住 2 秒", phase: "屏住呼吸...感受此刻的平静", dur: 2000 },
+    { scale: 1, text: "呼气 6 秒", phase: "慢慢呼气...把紧张和不安都呼出去", dur: 6000 }
+  ];
+  var step = 0;
+  btn.textContent = "进行中...";
+  btn.style.opacity = "0.6";
+  function run() {
+    var s = cycle[step];
+    circle.style.transform = "scale(" + s.scale + ")";
+    circle.style.transition = "all " + (s.dur / 1000) + "s ease";
+    text.textContent = s.text;
+    phase.textContent = s.phase;
+    step = (step + 1) % 3;
+  }
+  run();
+  breathingTimer = setInterval(run, 12000);
+  setTimeout(function() {
+    if (breathingTimer) { clearInterval(breathingTimer); breathingTimer = null; }
+    circle.style.transform = "scale(1)";
+    circle.style.transition = "all .5s ease";
+    text.textContent = "完成";
+    phase.textContent = "你做得很好！感觉平静一些了吗？";
+    btn.textContent = "再来一次";
+    btn.style.opacity = "1";
+  }, 36000);
 }
 
 function showCrisis(level, btn) {
-  document.querySelectorAll('.crisis-card').forEach(c => c.classList.remove('selected'));
-  btn.classList.add('selected');
-
-  const responses = {
-    none: '<strong>🟢 无风险：</strong>AI处于日常陪伴模式。使用无条件共情 + 温和引导的标准回复策略。用户可以自由聊天，AI感知情绪但不触发干预。这是产品90%时间所处的状态——做学生身边可靠的倾听者。',
-    warning: '<strong>🟡 关注：</strong>检测到明显的痛苦情绪（如持续低落、焦虑、烦躁）。AI自动加强共情表达，主动提供情绪疏导小技巧（如呼吸练习、情绪命名法），并温和引导用户使用「心情打卡」和「急救包」功能来帮助自我调节。',
-    intervention: '<strong>🟠 干预：</strong>检测到自杀/自伤意念或虐待信号。AI先温和共情（"我听到你现在经历着非常困难的事情"），然后正常化求助行为（"每个人都有需要帮助的时候"），接着提供具体建议（联系心理老师、拨打热线），最后给予希望感（"这些困难是可以被解决的"）。',
-    critical: '<strong>🔴 危急：</strong>检测到明确的自杀计划或正在进行中的自伤行为。AI表达深切关心（"我听到你现在非常痛苦，我真的很担心你"），温和坚定地引导用户联系身边可信任的人，绝不讨论任何方法细节，同时提供24小时心理援助热线。对于≤14岁用户，额外强调"请告诉身边的大人"。'
+  document.querySelectorAll(".crisis-card").forEach(function(c) { c.classList.remove("selected"); });
+  btn.classList.add("selected");
+  var responses = {
+    none: "<strong>🟢 无风险：</strong>AI处于日常陪伴模式。使用无条件共情 + 温和引导的标准回复策略。用户可以自由聊天，AI感知情绪但不触发干预。这是产品90%时间所处的状态——做学生身边可靠的倾听者。",
+    warning: "<strong>🟡 关注：</strong>检测到明显的痛苦情绪（如持续低落、焦虑、烦躁）。AI自动加强共情表达，主动提供情绪疏导小技巧（如呼吸练习、情绪命名法），并温和引导用户使用「心情打卡」和「急救包」功能来帮助自我调节。",
+    intervention: "<strong>🟠 干预：</strong>检测到自杀/自伤意念或虐待信号。AI先温和共情，然后正常化求助行为，接着提供具体建议（联系心理老师、拨打热线），最后给予希望感（"这些困难是可以被解决的"）。",
+    critical: "<strong>🔴 危急：</strong>检测到明确的自杀计划或正在进行中的自伤行为。AI表达深切关心，温和坚定地引导用户联系身边可信任的人，绝不讨论任何方法细节，同时提供24小时心理援助热线。≤14岁用户额外强调"请告诉身边的大人"。"
   };
-  document.getElementById('crisisResponse').innerHTML = responses[level];
+  document.getElementById("crisisResponse").innerHTML = responses[level];
 }
 
-// Enter key to send
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('chatInput').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') sendMessage();
-  });
-});
+(function() {
+  var style = document.createElement("style");
+  style.textContent = ".age-select-btn{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:12px;cursor:pointer;width:100%;background:#fff;transition:all .2s;text-align:left;}" + ".age-select-btn:hover{transform:translateX(4px);box-shadow:0 2px 8px rgba(0,0,0,.06);}" + ".mood-emoji:hover>div:first-child{transform:scale(1.3);}" + ".quick-btn{background:#fff;border:1px solid #ddd;border-radius:14px;padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;transition:all .2s;}" + ".quick-btn:hover{background:#F8F7FF;border-color:#A29BFE;}" + ".chat-bubble{max-width:85%;padding:10px 14px;border-radius:14px;font-size:12px;line-height:1.5;animation:fadeIn .3s ease;}" + "@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}" + ".chat-bubble.bot{background:#fff;align-self:flex-start;border-bottom-left-radius:2px;}" + ".chat-bubble.user{background:#6C5CE7;color:#fff;align-self:flex-end;border-bottom-right-radius:2px;margin-left:auto;}" + ".chat-bubble.critical{background:#FFE0E0;border:1px solid #FF6B6B;white-space:pre-line;}";
+  document.head.appendChild(style);
+})();
 </script>
 
 </body>
