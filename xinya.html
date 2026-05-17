@@ -249,7 +249,11 @@
     max-width:var(--max-w); margin:0 auto;
   }
 
-  /* Prototype styles */
+  /* Prototype - exact match with working test page */
+  .phone { width:340px; height:620px; border-radius:28px; border:3px solid #333; background:#F8F9FA; overflow:hidden; margin:0 auto; position:relative; }
+  .phone-notch { height:26px; background:#333; }
+  .screen-wrap { height:588px; position:relative; overflow:hidden; }
+  .screen { position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; }
   .proto-demo-grid { display:grid; grid-template-columns:340px 1fr; gap:32px; align-items:start; }
   .proto-demo-grid .phone-wrap { width:340px; margin:0 auto; }
   .age-select-btn { display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:12px; cursor:pointer; width:100%; background:#fff; transition:all .2s; text-align:left; }
@@ -266,8 +270,6 @@
 
   @media (max-width:768px) {
     .hero h1 { font-size:26px; }
-    .chat-demo-wrap { grid-template-columns:1fr; }
-    .chat-phone { width:280px; height:480px; }
     .proto-demo-grid { grid-template-columns:1fr; }
     .proto-demo-grid .phone-wrap { width:100%; max-width:340px; }
     .crisis-grid { grid-template-columns:repeat(2,1fr); }
@@ -364,7 +366,7 @@
 <section id="demo" class="section">
   <div class="section-heading">
     <div class="eyebrow">Interactive Prototype</div>
-    <h2>可交互产品原型 <span style="font-size:10px;background:#22C55E;color:#fff;padding:2px 6px;border-radius:8px;vertical-align:middle;">v3</span></h2>
+    <h2>可交互产品原型 <span style="font-size:10px;background:#22C55E;color:#fff;padding:2px 6px;border-radius:8px;vertical-align:middle;">v4</span></h2>
     <p>点击下方手机模拟器体验完整产品流程。切换年龄段后，AI的回复风格、情绪引导、危机话术都会改变。</p>
     <ol style="font-size:14px;color:var(--muted);margin-top:8px;padding-left:20px;display:flex;flex-wrap:wrap;gap:4px 24px;">
       <li><strong>欢迎页 → 年龄选择</strong> — 选择你的学段</li>
@@ -377,13 +379,12 @@
   <div class="proto-demo-grid">
     <!-- Phone Mockup -->
     <div class="phone-wrap">
-      <div class="phone-mockup" style="width:340px;height:620px;border-radius:28px;border:3px solid #333;background:#F8F9FA;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.15);position:relative;box-sizing:border-box;">
-        <div style="height:26px;background:#333;display:flex;justify-content:center;align-items:flex-end;padding-bottom:4px;"><div style="width:60px;height:5px;border-radius:3px;background:#555;"></div></div>
-        <!-- Screen Container: content area = 620 - 6(border) = 614, minus 26(notch) = 588 -->
-        <div id="appScreen" style="height:588px;overflow:hidden;position:relative;">
+      <div class="phone" style="box-shadow:0 12px 40px rgba(0,0,0,.15);">
+        <div class="phone-notch"></div>
+        <div class="screen-wrap">
 
           <!-- Page: Welcome -->
-          <div class="proto-page" id="pageWelcome" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px;text-align:center;background:linear-gradient(135deg, #F8F7FF 0%, #E8E6FF 100%);">
+          <div class="screen" id="pageWelcome" style="display:flex;justify-content:center;align-items:center;padding:24px;text-align:center;background:linear-gradient(135deg, #F8F7FF 0%, #E8E6FF 100%);">
             <div style="font-size:56px;margin-bottom:12px;">🌱</div>
             <div style="font-size:20px;font-weight:800;color:var(--primary);margin-bottom:6px;">心芽</div>
             <div style="font-size:13px;color:var(--muted);margin-bottom:28px;">你随时可倾诉的心理陪伴伙伴</div>
@@ -392,13 +393,13 @@
               <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#666;"><span>🛡</span> 不诊断 · 不开药 · 不越界</div>
               <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#666;"><span>👶</span> 小学 / 初中 / 高中 专属陪伴</div>
             </div>
-            <button onclick="protoNav('pageAge')" style="margin-top:24px;width:100%;padding:12px;border-radius:12px;border:none;background:var(--primary);color:#fff;font-size:15px;font-weight:600;cursor:pointer;">开始 →</button>
+            <button onclick="goScreen('pageAge')" style="margin-top:24px;width:100%;padding:12px;border-radius:12px;border:none;background:var(--primary);color:#fff;font-size:15px;font-weight:600;cursor:pointer;">开始 →</button>
           </div>
 
           <!-- Page: Age Selection -->
-          <div class="proto-page" id="pageAge" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;padding:20px;background:#fff;">
+          <div class="screen" id="pageAge" style="padding:20px;background:#fff;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
-              <button onclick="protoNav('pageWelcome')" style="background:none;border:none;font-size:18px;cursor:pointer;">←</button>
+              <button onclick="goScreen('pageWelcome')" style="background:none;border:none;font-size:18px;cursor:pointer;">←</button>
               <span style="font-weight:700;font-size:15px;">选择你的学段</span>
             </div>
             <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">请选择你的年级，心芽会用最适合你的方式陪你聊天~</p>
@@ -419,12 +420,12 @@
           </div>
 
           <!-- Page: Main Chat -->
-          <div class="proto-page" id="pageChat" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;background:#F5F5F5;">
+          <div class="screen" id="pageChat" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;background:#F5F5F5;">
             <div style="background:var(--primary);color:#fff;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;font-size:13px;">
               <div style="display:flex;align-items:center;gap:6px;"><span>🌱</span><span>心芽 · <span id="protoAgeLabel">初中版</span></span></div>
               <div style="display:flex;gap:10px;">
-                <button onclick="protoNav('pageMood')" style="background:rgba(255,255,255,.2);border:none;color:#fff;font-size:11px;padding:4px 8px;border-radius:10px;cursor:pointer;">打卡</button>
-                <button onclick="protoNav('pageEmergency')" style="background:rgba(255,255,255,.2);border:none;color:#fff;font-size:11px;padding:4px 8px;border-radius:10px;cursor:pointer;">求助</button>
+                <button onclick="goScreen('pageMood')" style="background:rgba(255,255,255,.2);border:none;color:#fff;font-size:11px;padding:4px 8px;border-radius:10px;cursor:pointer;">打卡</button>
+                <button onclick="goScreen('pageEmergency')" style="background:rgba(255,255,255,.2);border:none;color:#fff;font-size:11px;padding:4px 8px;border-radius:10px;cursor:pointer;">求助</button>
               </div>
             </div>
             <div id="protoChatBody" style="flex:1;padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;">
@@ -444,17 +445,17 @@
             </div>
             <!-- Bottom nav -->
             <div style="display:flex;justify-content:space-around;padding:6px 0;background:#fff;border-top:1px solid #eee;font-size:10px;">
-              <button onclick="protoNav('pageChat')" style="background:none;border:none;color:var(--primary);cursor:pointer;text-align:center;">💬<br>聊天</button>
-              <button onclick="protoNav('pageMood')" style="background:none;border:none;color:#999;cursor:pointer;text-align:center;">📝<br>心情</button>
-              <button onclick="protoNav('pageBreathing')" style="background:none;border:none;color:#999;cursor:pointer;text-align:center;">🫁<br>呼吸</button>
-              <button onclick="protoNav('pageEmergency')" style="background:none;border:none;color:#999;cursor:pointer;text-align:center;">🆘<br>求助</button>
+              <button onclick="goScreen('pageChat')" style="background:none;border:none;color:var(--primary);cursor:pointer;text-align:center;">💬<br>聊天</button>
+              <button onclick="goScreen('pageMood')" style="background:none;border:none;color:#999;cursor:pointer;text-align:center;">📝<br>心情</button>
+              <button onclick="goScreen('pageBreathing')" style="background:none;border:none;color:#999;cursor:pointer;text-align:center;">🫁<br>呼吸</button>
+              <button onclick="goScreen('pageEmergency')" style="background:none;border:none;color:#999;cursor:pointer;text-align:center;">🆘<br>求助</button>
             </div>
           </div>
 
           <!-- Page: Mood Check-in -->
-          <div class="proto-page" id="pageMood" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;padding:20px;background:#fff;">
+          <div class="screen" id="pageMood" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;padding:20px;background:#fff;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-              <button onclick="protoNav('pageChat')" style="background:none;border:none;font-size:18px;cursor:pointer;">←</button>
+              <button onclick="goScreen('pageChat')" style="background:none;border:none;font-size:18px;cursor:pointer;">←</button>
               <span style="font-weight:700;font-size:15px;">今日心情打卡</span>
             </div>
             <div id="protoMoodQuestion" style="font-size:14px;color:#666;margin-bottom:20px;">今天感觉怎么样？选一个最贴近你心情的表情吧~</div>
@@ -481,8 +482,8 @@
           </div>
 
           <!-- Page: Breathing Exercise -->
-          <div class="proto-page" id="pageBreathing" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:#fff;">
-            <button onclick="protoNav('pageChat')" style="align-self:flex-start;background:none;border:none;font-size:18px;cursor:pointer;margin-bottom:16px;">←</button>
+          <div class="screen" id="pageBreathing" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:#fff;">
+            <button onclick="goScreen('pageChat')" style="align-self:flex-start;background:none;border:none;font-size:18px;cursor:pointer;margin-bottom:16px;">←</button>
             <div style="font-size:14px;font-weight:700;margin-bottom:8px;">4-2-6 呼吸法</div>
             <div style="font-size:12px;color:var(--muted);margin-bottom:28px;">跟着动画一起呼吸，缓解焦虑</div>
             <div id="breathingCircle" style="width:160px;height:160px;border-radius:50%;background:var(--primary-bg);border:3px solid var(--primary-light);display:flex;align-items:center;justify-content:center;transition:all .5s ease;margin-bottom:20px;">
@@ -493,8 +494,8 @@
           </div>
 
           <!-- Page: Emergency -->
-          <div class="proto-page" id="pageEmergency" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;padding:20px;background:linear-gradient(180deg, #FFF5F5 0%, #FFF0F0 100%);overflow-y:auto;">
-            <button onclick="protoNav('pageChat')" style="align-self:flex-start;background:none;border:none;font-size:18px;cursor:pointer;margin-bottom:8px;">←</button>
+          <div class="screen" id="pageEmergency" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;padding:20px;background:linear-gradient(180deg, #FFF5F5 0%, #FFF0F0 100%);overflow-y:auto;">
+            <button onclick="goScreen('pageChat')" style="align-self:flex-start;background:none;border:none;font-size:18px;cursor:pointer;margin-bottom:8px;">←</button>
             <div style="text-align:center;font-size:36px;margin-bottom:8px;">🆘</div>
             <div style="font-size:16px;font-weight:800;text-align:center;margin-bottom:16px;">紧急求助</div>
             <div id="protoEmergencyMsg" style="background:#fff;border-radius:12px;padding:16px;font-size:13px;line-height:1.7;color:#444;margin-bottom:16px;">
@@ -514,7 +515,7 @@
                 <div style="font-size:12px;color:var(--muted);">12355 · 工作日 9:00-17:00</div>
               </div>
             </div>
-            <button onclick="protoNav('pageChat')" style="margin-top:16px;background:var(--primary);color:#fff;border:none;padding:12px;border-radius:12px;font-size:14px;cursor:pointer;">返回聊天</button>
+            <button onclick="goScreen('pageChat')" style="margin-top:16px;background:var(--primary);color:#fff;border:none;padding:12px;border-radius:12px;font-size:14px;cursor:pointer;">返回聊天</button>
           </div>
 
         </div>
@@ -541,22 +542,23 @@
 
 <!-- ===== Prototype JS ===== -->
 <script>
-// v3 - 2024-05-17
+// v4
 var protoAge = "middle";
 var breathingTimer = null;
 
-// Signal that JS loaded successfully
 (function() {
   var badge = document.createElement("div");
   badge.id = "jsLoadedBadge";
   badge.style.cssText = "position:fixed;bottom:12px;right:12px;background:#22C55E;color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;z-index:9999;pointer-events:none;";
-  badge.textContent = "JS Ready v3";
+  badge.textContent = "JS OK v4";
   document.body.appendChild(badge);
-  setTimeout(function() { badge.style.opacity = "0"; badge.style.transition = "opacity 1s"; }, 3000);
 })();
 
-function protoNav(pageId) {
-  var pages = document.querySelectorAll(".proto-page");
+// Initialize first screen
+document.getElementById("pageWelcome").style.display = "flex";
+
+function goScreen(pageId) {
+  var pages = document.querySelectorAll(".screen");
   for (var i = 0; i < pages.length; i++) {
     pages[i].style.display = "none";
   }
@@ -590,7 +592,7 @@ function switchAgeAndEnter(age) {
   if (moodQ) moodQ.textContent = moodQuestions[age] || moodQuestions.middle;
   var moodFB = document.getElementById("protoMoodFeedback");
   if (moodFB) moodFB.style.display = "none";
-  protoNav("pageChat");
+  goScreen("pageChat");
 }
 
 function protoSend(msg) {
