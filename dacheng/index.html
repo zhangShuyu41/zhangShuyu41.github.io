@@ -102,26 +102,198 @@
         </section>
 
         <!-- ====== 产品演示 ====== -->
+        <style>
+            .dc-screen { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; overflow-y:auto; }
+            .dc-screen::-webkit-scrollbar { width:0; }
+            .dc-btn { display:inline-block; padding:10px 20px; border-radius:20px; font-size:13px; font-weight:600; cursor:pointer; border:none; text-align:center; transition:all .2s; }
+            .dc-btn-primary { background:var(--primary); color:#fff; }
+            .dc-btn-primary:hover { background:var(--primary-dark); transform:scale(1.03); }
+            .dc-btn-outline { background:#fff; color:var(--primary-dark); border:2px solid var(--primary); }
+            .dc-btn-outline:hover { background:var(--primary-bg); }
+            .dc-btn-apply { width:100%; padding:12px; border-radius:12px; font-size:14px; }
+            .dc-btn-applied { background:#ddd !important; color:#999 !important; cursor:default !important; }
+            .dc-post-card { cursor:pointer; padding:14px 18px; border-bottom:1px solid #f0f0f0; transition:background .15s; }
+            .dc-post-card:hover { background:#fafafa; }
+            .dc-post-card h4 { font-size:14px; font-weight:700; margin-bottom:4px; }
+            .dc-post-card .meta { font-size:12px; color:#888; }
+            .dc-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:600; color:#fff; margin-right:6px; }
+            .dc-badge.eat { background:#FF6B6B; } .dc-badge.sport { background:#4ECDC4; } .dc-badge.movie { background:#FFD93D; color:#333; } .dc-badge.cafe { background:#A29BFE; }
+            .dc-chat-bubble { max-width:78%; padding:10px 14px; border-radius:14px; font-size:12px; line-height:1.5; margin-bottom:10px; word-break:break-word; }
+            .dc-chat-bubble.theirs { background:#E8ECF0; align-self:flex-start; border-bottom-left-radius:2px; }
+            .dc-chat-bubble.mine { background:var(--primary); color:#fff; align-self:flex-end; border-bottom-right-radius:2px; margin-left:auto; }
+            .dc-chat-time { text-align:center; font-size:10px; color:#aaa; margin:8px 0; }
+            .dc-toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:8px 20px; border-radius:20px; font-size:12px; z-index:999; pointer-events:none; animation:dcFadeInOut 2s ease forwards; }
+            @keyframes dcFadeInOut { 0%{opacity:0;transform:translateX(-50%) translateY(10px);} 20%{opacity:1;transform:translateX(-50%) translateY(0);} 80%{opacity:1;} 100%{opacity:0;} }
+        </style>
         <section id="demo" class="portfolio-demo">
             <div class="demo-content">
                 <div class="demo-intro">
                     <p class="eyebrow">Interactive Demo</p>
                     <h2>可交互产品原型</h2>
-                    <p>以下是内置在页面中的移动端模拟 App。你可以直接点击体验完整的用户路径：</p>
+                    <p>点击手机模拟器体验完整产品流程。每个按钮都是可交互的——就像在真实 App 中一样。</p>
                     <ol class="demo-path">
-                        <li><strong>欢迎页 → 登录注册</strong> — 手机号验证码登录 + 第三方快捷登录</li>
-                        <li><strong>首页浏览</strong> — 6 大分类筛选 + 关键词搜索 + 附近匹配列表</li>
-                        <li><strong>发布邀约</strong> — 选择类型、时间、地点、人数，一键发布</li>
-                        <li><strong>查看详情 → 报名</strong> — 查看需求详情、发布人信息，点击报名</li>
-                        <li><strong>聊天沟通</strong> — 内置即时通讯，与搭子确认出行细节</li>
-                        <li><strong>个人中心</strong> — 查看数据统计、编辑资料、管理发布记录</li>
+                        <li><strong>欢迎页 → 首页</strong> — 点击「开始探索」进入</li>
+                        <li><strong>筛选分类</strong> — 点击顶部6个分类标签筛选</li>
+                        <li><strong>查看详情</strong> — 点击任意行程卡片</li>
+                        <li><strong>报名参加</strong> — 点击「我要参加」完成报名</li>
+                        <li><strong>私聊沟通</strong> — 报名后点击「私聊TA」进入对话</li>
                     </ol>
                 </div>
-                <div class="demo-mockup" id="phone-mockup">
-                    <!-- Phone mockup rendered by JS -->
+                <div class="demo-mockup" id="dacheng-mockup">
+                    <div class="phone-status-bar"><span>9:41</span><span>📶 🔋</span></div>
+                    <div id="dcScreenContainer" style="position:relative;height:calc(100% - 30px);overflow:hidden;">
+                        <!-- Screen 1: Welcome -->
+                        <div id="dcWelcome" class="dc-screen" style="display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px;text-align:center;background:linear-gradient(135deg,#F0FDF9 0%,#E0F7F2 100%);">
+                            <div style="font-size:48px;margin-bottom:12px;">🏕️</div>
+                            <div style="font-size:22px;font-weight:800;color:var(--primary-dark);margin-bottom:4px;">搭子成行</div>
+                            <div style="font-size:12px;color:var(--muted);margin-bottom:24px;">找到志同道合的搭子，让每次出行都有伴</div>
+                            <div style="display:flex;flex-direction:column;gap:6px;width:100%;font-size:11px;color:#888;margin-bottom:24px;">
+                                <div>🍲 拼餐 · 🏃 运动 · 📚 学习</div>
+                                <div>🎬 观影 · ☕ 探店 · 🎮 游戏</div>
+                            </div>
+                            <button onclick="dachengNav('dcHome')" class="dc-btn dc-btn-primary" style="width:100%;padding:12px;font-size:14px;">开始探索 →</button>
+                            <button onclick="dachengNav('dcHome')" style="background:none;border:none;color:var(--muted);font-size:11px;margin-top:8px;cursor:pointer;">随便看看</button>
+                        </div>
+                        <!-- Screen 2: Home -->
+                        <div id="dcHome" class="dc-screen" style="display:none;flex-direction:column;">
+                            <div class="phone-header"><h3>🏕️ 搭子成行</h3><span class="phone-header-icon">🔍</span></div>
+                            <div class="phone-categories" style="padding:4px 18px 8px;">
+                                <button class="phone-cat-pill active" onclick="dachengFilterCat('all',this)" style="cursor:pointer;">全部</button>
+                                <button class="phone-cat-pill" onclick="dachengFilterCat('拼餐',this)" style="cursor:pointer;">🍲 拼餐</button>
+                                <button class="phone-cat-pill" onclick="dachengFilterCat('运动',this)" style="cursor:pointer;">🏃 运动</button>
+                                <button class="phone-cat-pill" onclick="dachengFilterCat('观影',this)" style="cursor:pointer;">🎬 观影</button>
+                                <button class="phone-cat-pill" onclick="dachengFilterCat('探店',this)" style="cursor:pointer;">☕ 探店</button>
+                                <button class="phone-cat-pill" onclick="dachengFilterCat('学习',this)" style="cursor:pointer;">📚 学习</button>
+                            </div>
+                            <div id="dcPostList" style="flex:1;overflow-y:auto;">
+                                <div class="dc-post-card" onclick="dachengShowDetail('周四晚 4 人火锅','🍲','拼餐','东城区 · 3.2km · 21:00','80-120 元','轻松聊天','budget','氛围')"><span class="dc-badge eat">拼餐</span><h4>🍲 周四晚 4 人火锅</h4><div class="meta">东城区 · 3.2km · 周四 21:00</div></div>
+                                <div class="dc-post-card" onclick="dachengShowDetail('周五晚 5km 夜跑','🏃','运动','西城区 · 1.8km · 19:30','中度','新手友好','intensity','经验')"><span class="dc-badge sport">运动</span><h4>🏃 周五晚 5km 夜跑</h4><div class="meta">西城区 · 1.8km · 周五 19:30</div></div>
+                                <div class="dc-post-card" onclick="dachengShowDetail('周六下午 电影约看','🎬','观影','朝阳区 · 2.1km · 16:00','50-80 元','喜剧/剧情','price','类型')"><span class="dc-badge movie">观影</span><h4>🎬 周六下午 电影约看</h4><div class="meta">朝阳区 · 2.1km · 周六 16:00</div></div>
+                                <div class="dc-post-card" onclick="dachengShowDetail('周五晚 咖啡探店','☕','探店','海淀区 · 4.0km · 20:00','60-100 元','咖啡厅','budget','类型')"><span class="dc-badge cafe">探店</span><h4>☕ 周五晚 咖啡探店</h4><div class="meta">海淀区 · 4.0km · 周五 20:00</div></div>
+                            </div>
+                            <div class="phone-bottom-nav">
+                                <button class="phone-nav-item active" onclick="dachengNav('dcHome')"><span class="phone-nav-icon">🏠</span>首页</button>
+                                <button class="phone-nav-item" onclick="dachengShowToast('💬 报名后即可与搭子私聊沟通');dachengNav('dcChat')"><span class="phone-nav-icon">💬</span>消息</button>
+                                <button class="phone-nav-item" onclick="dachengShowToast('📝 发布功能：选择类型、时间、地点、人数一键发布')"><span class="phone-nav-icon">＋</span>发布</button>
+                                <button class="phone-nav-item" onclick="dachengShowToast('👤 个人中心：查看数据统计、编辑资料、管理发布记录')"><span class="phone-nav-icon">👤</span>我的</button>
+                            </div>
+                        </div>
+                        <!-- Screen 3: Detail -->
+                        <div id="dcDetail" class="dc-screen" style="display:none;flex-direction:column;">
+                            <div class="phone-header"><span class="phone-header-icon" onclick="dachengNav('dcHome')" style="cursor:pointer;">← 返回</span><span style="font-size:12px;color:#999;">详情</span><span></span></div>
+                            <div class="phone-detail" style="flex:1;overflow-y:auto;">
+                                <span id="dcDetailBadge" class="dc-badge eat">拼餐</span>
+                                <h3 id="dcDetailTitle">🍲 周四晚 4 人火锅</h3>
+                                <p id="dcDetailDesc" class="phone-detail-desc">地点：东城区 | 时间：周四 21:00 | 2/4 人</p>
+                                <div class="phone-info-row">
+                                    <div class="phone-info-item"><strong id="dcDetailInfo1Label">预算</strong><span id="dcDetailInfo1Val">80-120 元</span></div>
+                                    <div class="phone-info-item"><strong id="dcDetailInfo2Label">氛围</strong><span id="dcDetailInfo2Val">轻松聊天</span></div>
+                                </div>
+                                <div class="phone-detail-note" id="dcDetailNote">轻社交火锅，欢迎学生党。期待兴趣相投的你加入！</div>
+                                <div class="phone-action-row">
+                                    <button id="dcApplyBtn" class="phone-btn phone-btn-primary dc-btn-apply" onclick="dachengApply()">我要参加</button>
+                                    <button class="phone-btn phone-btn-outline dc-btn-apply" onclick="dachengGoChat()">私聊TA</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Screen 4: Chat -->
+                        <div id="dcChat" class="dc-screen" style="display:none;flex-direction:column;">
+                            <div class="phone-header"><span class="phone-header-icon" onclick="dachengNav('dcHome')" style="cursor:pointer;">← 返回</span><h3 style="font-size:15px;">小萌</h3><span class="phone-header-icon">📞</span></div>
+                            <div id="dcChatBody" class="phone-chat" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;padding:12px 16px;">
+                                <div class="dc-chat-time">今天 18:24</div>
+                                <div class="dc-chat-bubble theirs">你好！看到你的邀约，我也想加入~</div>
+                                <div class="dc-chat-bubble mine">欢迎！我们周四晚 9 点见，目前已经有 2 个人了</div>
+                                <div class="dc-chat-bubble theirs">太好了！有什么需要注意的吗？</div>
+                                <div class="dc-chat-bubble mine">带上好心情就行！到时候在国贸地铁站B口碰面</div>
+                                <div class="dc-chat-time">对方已确认参加</div>
+                            </div>
+                            <div style="padding:8px 12px;background:#fff;display:flex;gap:8px;border-top:1px solid #f0f0f0;">
+                                <input type="text" id="dcChatInput" placeholder="输入消息..." style="flex:1;border:1px solid #eee;border-radius:16px;padding:8px 14px;font-size:12px;outline:none;" onkeydown="if(event.key==='Enter')dachengSendChat()">
+                                <button onclick="dachengSendChat()" style="background:var(--primary);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:14px;cursor:pointer;">→</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
+        <script>
+        var dachengApplied = false;
+        var dachengDetailData = {};
+        function dachengNav(id) {
+            var screens = document.querySelectorAll('.dc-screen');
+            for (var i = 0; i < screens.length; i++) screens[i].style.display = 'none';
+            var t = document.getElementById(id);
+            if (t) t.style.display = 'flex';
+            if (id === 'dcChat') { var b = document.getElementById('dcChatBody'); if (b) setTimeout(function(){ b.scrollTop = b.scrollHeight; }, 100); }
+        }
+        function dachengFilterCat(cat, btn) {
+            var pills = document.querySelectorAll('.phone-cat-pill');
+            for (var i = 0; i < pills.length; i++) pills[i].classList.remove('active');
+            if (btn) btn.classList.add('active');
+            var cards = document.querySelectorAll('#dcPostList .dc-post-card');
+            for (var i = 0; i < cards.length; i++) {
+                var badge = cards[i].querySelector('.dc-badge');
+                if (!badge) continue;
+                if (cat === 'all' || badge.textContent.trim() === cat) { cards[i].style.display = ''; }
+                else { cards[i].style.display = 'none'; }
+            }
+            dachengShowToast(cat === 'all' ? '显示全部行程' : '已筛选：' + cat);
+        }
+        function dachengShowDetail(title, icon, cat, loc, info1, info2, label1, label2) {
+            dachengDetailData = { title: title, icon: icon, cat: cat, loc: loc, info1: info1, info2: info2, label1: label1, label2: label2 };
+            document.getElementById('dcDetailTitle').textContent = icon + ' ' + title;
+            document.getElementById('dcDetailDesc').textContent = '地点：' + loc.split('·')[0].trim() + ' | 时间：' + loc.split('·')[2].trim() + ' | 2/4 人';
+            var badge = document.getElementById('dcDetailBadge');
+            badge.textContent = cat;
+            badge.className = 'dc-badge ' + (cat === '拼餐' ? 'eat' : cat === '运动' ? 'sport' : cat === '观影' ? 'movie' : 'cafe');
+            document.getElementById('dcDetailInfo1Label').textContent = label1 === 'budget' ? '预算' : label1 === 'intensity' ? '强度' : label1 === 'price' ? '票价' : '预算';
+            document.getElementById('dcDetailInfo1Val').textContent = info1;
+            document.getElementById('dcDetailInfo2Label').textContent = label2 === '氛围' ? '氛围' : label2 === '经验' ? '经验' : label2 === '类型' ? '类型' : '类型';
+            document.getElementById('dcDetailInfo2Val').textContent = info2;
+            document.getElementById('dcDetailNote').textContent = title + '。期待兴趣相投的你加入！';
+            var applyBtn = document.getElementById('dcApplyBtn');
+            applyBtn.textContent = dachengApplied ? '已申请 ✓' : '我要参加';
+            applyBtn.className = 'phone-btn phone-btn-primary dc-btn-apply' + (dachengApplied ? ' dc-btn-applied' : '');
+            applyBtn.disabled = dachengApplied;
+            dachengNav('dcDetail');
+        }
+        function dachengApply() {
+            if (dachengApplied) return;
+            dachengApplied = true;
+            var btn = document.getElementById('dcApplyBtn');
+            btn.textContent = '已申请 ✓';
+            btn.className = 'phone-btn phone-btn-primary dc-btn-apply dc-btn-applied';
+            btn.disabled = true;
+            dachengShowToast('✅ 报名成功！等待对方确认');
+        }
+        function dachengGoChat() {
+            if (!dachengApplied) { dachengShowToast('⚠️ 请先报名再私聊'); return; }
+            dachengNav('dcChat');
+        }
+        function dachengSendChat() {
+            var input = document.getElementById('dcChatInput');
+            var msg = input.value.trim();
+            if (!msg) return;
+            var body = document.getElementById('dcChatBody');
+            body.innerHTML += '<div class="dc-chat-bubble mine">' + msg.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>';
+            input.value = '';
+            setTimeout(function() {
+                body.innerHTML += '<div class="dc-chat-bubble theirs">收到！到时候见~ 😊</div>';
+                body.scrollTop = body.scrollHeight;
+                dachengShowToast('💬 新消息');
+            }, 600);
+            body.scrollTop = body.scrollHeight;
+        }
+        function dachengShowToast(msg) {
+            var existing = document.querySelector('.dc-toast');
+            if (existing) existing.remove();
+            var toast = document.createElement('div');
+            toast.className = 'dc-toast';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(function() { if (toast.parentNode) toast.remove(); }, 2200);
+        }
+        </script>
 
         <!-- ====== 功能亮点 ====== -->
         <section id="features" class="portfolio-section section-card">
