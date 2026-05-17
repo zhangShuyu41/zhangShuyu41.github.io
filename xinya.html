@@ -549,7 +549,7 @@ var breathingTimer = null;
 (function() {
   var badge = document.createElement("div");
   badge.id = "jsLoadedBadge";
-  badge.style.cssText = "position:fixed;bottom:12px;right:12px;background:#22C55E;color:#fff;padding:6px 12px;border-radius:14px;font-size:11px;font-weight:600;z-index:99999;pointer-events:none;max-width:300px;text-align:right;line-height:1.4;";
+  badge.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#22C55E;color:#fff;padding:16px 28px;border-radius:16px;font-size:20px;font-weight:800;z-index:99999;pointer-events:none;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.25);border:3px solid #fff;";
   badge.textContent = "JS OK v5";
   document.body.appendChild(badge);
 
@@ -562,20 +562,23 @@ var breathingTimer = null;
     if (el.onclick) info += " [has onclick]";
     badge.textContent = "CLICK: " + info + " | v5";
     badge.style.background = "#3B82F6";
-    // Reset after 2s
+    badge.style.fontSize = "22px";
+    // Reset after 4s
     clearTimeout(badge._timeout);
     badge._timeout = setTimeout(function() {
       badge.textContent = "JS OK v5";
       badge.style.background = "#22C55E";
-    }, 2000);
+      badge.style.fontSize = "20px";
+    }, 4000);
   }, true);
 
   // Phone-specific diagnostic
   var phone = document.getElementById("phoneShell");
   if (phone) {
     phone.addEventListener("click", function(e) {
-      badge.textContent = "PHONE CLICKED! v5";
+      badge.textContent = "手机被点击了! v5";
       badge.style.background = "#FF6B6B";
+      badge.style.fontSize = "22px";
     }, true);
   }
 })();
