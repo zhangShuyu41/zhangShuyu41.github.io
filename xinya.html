@@ -378,10 +378,10 @@
   </div>
   <div class="proto-demo-grid">
     <!-- Phone Mockup -->
-    <div class="phone-wrap">
-      <div class="phone" id="phoneShell" style="box-shadow:0 12px 40px rgba(0,0,0,.15);">
+    <div class="phone-wrap" style="position:relative;z-index:99999;isolation:isolate;">
+      <div class="phone" id="phoneShell" style="box-shadow:0 12px 40px rgba(0,0,0,.15);position:relative;z-index:99999;">
         <div class="phone-notch"></div>
-        <div class="screen-wrap">
+        <div class="screen-wrap" style="position:relative;z-index:1;">
 
           <!-- Page: Welcome -->
           <div class="screen" id="pageWelcome" style="display:flex;justify-content:center;align-items:center;padding:24px;text-align:center;background:linear-gradient(135deg, #F8F7FF 0%, #E8E6FF 100%);">
@@ -549,13 +549,34 @@ var breathingTimer = null;
 (function() {
   var badge = document.createElement("div");
   badge.id = "jsLoadedBadge";
-  badge.style.cssText = "position:fixed;bottom:12px;right:12px;background:#22C55E;color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;z-index:9999;pointer-events:none;";
-  badge.textContent = "JS OK v4";
+  badge.style.cssText = "position:fixed;bottom:12px;right:12px;background:#22C55E;color:#fff;padding:6px 12px;border-radius:14px;font-size:11px;font-weight:600;z-index:99999;pointer-events:none;max-width:300px;text-align:right;line-height:1.4;";
+  badge.textContent = "JS OK v5";
   document.body.appendChild(badge);
-  // Diagnostic: check if phone receives clicks
+
+  // Global click tracker: shows what element receives clicks
+  document.addEventListener("click", function(e) {
+    var el = e.target;
+    var info = el.tagName;
+    if (el.id) info += "#" + el.id;
+    if (el.className && typeof el.className === "string") info += "." + el.className.split(" ")[0];
+    if (el.onclick) info += " [has onclick]";
+    badge.textContent = "CLICK: " + info + " | v5";
+    badge.style.background = "#3B82F6";
+    // Reset after 2s
+    clearTimeout(badge._timeout);
+    badge._timeout = setTimeout(function() {
+      badge.textContent = "JS OK v5";
+      badge.style.background = "#22C55E";
+    }, 2000);
+  }, true);
+
+  // Phone-specific diagnostic
   var phone = document.getElementById("phoneShell");
   if (phone) {
-    phone.onclick = function(e) { badge.textContent = "PHONE CLICKED! v4"; badge.style.background = "#FF6B6B"; };
+    phone.addEventListener("click", function(e) {
+      badge.textContent = "PHONE CLICKED! v5";
+      badge.style.background = "#FF6B6B";
+    }, true);
   }
 })();
 
