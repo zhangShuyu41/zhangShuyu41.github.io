@@ -11,115 +11,255 @@
     --primary-dark: #5A4BD1;
     --primary-light: #A29BFE;
     --primary-bg: #F8F7FF;
+    --primary-border: #E0DDF7;
     --accent: #FD79A8;
     --text: #1A1A2E;
-    --muted: #6B7280;
-    --border: #E5E7EB;
+    --text-secondary: #4A4A68;
+    --muted: #8E8EA0;
+    --border: #E8ECF0;
     --bg: #FAFBFC;
     --white: #FFFFFF;
-    --shadow: 0 4px 20px rgba(0,0,0,.08);
-    --shadow-lg: 0 12px 48px rgba(0,0,0,.12);
-    --radius: 16px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+    --shadow: 0 4px 16px rgba(0,0,0,.08);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,.12);
     --radius-sm: 10px;
+    --radius: 16px;
+    --radius-lg: 24px;
     --font: "PingFang SC","Microsoft YaHei","Hiragino Sans GB",-apple-system,sans-serif;
-    --max-w: 960px;
+    --max-w: 1040px;
+    --header-h: 60px;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
   body { font-family:var(--font); color:var(--text); background:var(--bg); line-height:1.6; }
-  a { color:var(--primary); text-decoration:none; }
 
   /* Nav */
   nav {
-    background:rgba(255,255,255,.9); backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100;
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(255,255,255,.88); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border); height:var(--header-h);
   }
-  .nav-inner { max-width:var(--max-w); margin:0 auto; display:flex; justify-content:space-between; align-items:center; padding:14px 24px; }
+  .nav-inner {
+    max-width:var(--max-w); margin:0 auto; display:flex;
+    justify-content:space-between; align-items:center; padding:0 24px; height:100%;
+  }
   .nav-brand { font-weight:700; font-size:16px; color:var(--primary); }
-  .nav-links { display:flex; gap:18px; font-size:13px; }
-  .nav-links a { color:var(--muted); }
+  .nav-links { display:flex; gap:20px; font-size:13px; }
+  .nav-links a { color:var(--muted); text-decoration:none; transition:color .2s; }
   .nav-links a:hover { color:var(--text); }
 
   /* Hero */
   .hero {
-    text-align:center; padding:60px 24px 40px; max-width:var(--max-w); margin:0 auto;
+    padding:100px 24px 48px; text-align:center; max-width:var(--max-w); margin:0 auto;
   }
   .hero-badge {
     display:inline-block; background:var(--primary-bg); color:var(--primary-dark);
-    padding:4px 14px; border-radius:20px; font-size:13px; font-weight:500; margin-bottom:12px;
+    padding:4px 16px; border-radius:20px; font-size:13px; font-weight:500; margin-bottom:16px;
   }
-  .hero h1 { font-size:36px; font-weight:800; }
-  .hero .sub { font-size:16px; color:var(--muted); margin-top:8px; max-width:600px; margin-inline:auto; }
-  .hero-stats { display:flex; justify-content:center; gap:36px; margin-top:24px; flex-wrap:wrap; }
+  .hero h1 { font-size:40px; font-weight:800; letter-spacing:1px; }
+  .hero h1 span { color:var(--primary); }
+  .hero .sub { font-size:17px; color:var(--muted); margin-top:10px; max-width:640px; margin-inline:auto; }
+  .hero-stats { display:flex; justify-content:center; gap:44px; margin-top:28px; flex-wrap:wrap; }
   .hero-stat { text-align:center; }
-  .hero-stat .num { font-size:26px; font-weight:800; color:var(--primary); }
+  .hero-stat .num { font-size:28px; font-weight:800; color:var(--primary); }
   .hero-stat .label { font-size:12px; color:var(--muted); }
 
-  /* Sections */
-  .section { max-width:var(--max-w); margin:0 auto; padding:24px 24px 40px; }
-  .section h2 { font-size:22px; font-weight:700; margin-bottom:16px; color:var(--primary-dark); border-left:3px solid var(--primary); padding-left:10px; }
-  .section p { font-size:14px; color:#444; margin-bottom:12px; }
+  /* Section */
+  .section { max-width:var(--max-w); margin:0 auto; padding:32px 24px; }
+  .section-heading { margin-bottom:24px; }
+  .section-heading .eyebrow { font-size:12px; text-transform:uppercase; letter-spacing:2px; color:var(--primary); font-weight:600; }
+  .section-heading h2 { font-size:26px; font-weight:800; margin:4px 0 8px; }
+  .section-heading p { font-size:15px; color:var(--muted); }
+
+  /* Section Cards */
+  .section-card { background:var(--white); border-radius:var(--radius); border:1px solid var(--border); padding:36px; box-shadow:var(--shadow-sm); }
+
+  /* Story Timeline */
+  .story-timeline { display:flex; flex-direction:column; gap:0; }
+  .timeline-item { display:flex; gap:18px; }
+  .timeline-marker {
+    width:40px; height:40px; border-radius:50%; background:var(--primary-bg);
+    display:flex; align-items:center; justify-content:center; font-size:18px;
+    flex-shrink:0; border:2px solid var(--primary-border);
+  }
+  .timeline-item::after {
+    content:""; width:2px; background:var(--primary-border);
+    position:relative; left:-29px; top:40px; height:calc(100% - 40px);
+  }
+  .timeline-item:last-child::after { display:none; }
+  .timeline-content { padding-bottom:24px; }
+  .timeline-content h3 { font-size:17px; font-weight:700; margin-bottom:6px; }
+  .timeline-content p { font-size:14px; color:#444; line-height:1.7; }
+
+  /* Chat Demo */
+  .chat-demo-wrap {
+    display:grid; grid-template-columns:320px 1fr; gap:28px; align-items:start;
+  }
+  .chat-phone {
+    width:320px; height:560px; border-radius:28px;
+    border:3px solid #333; background:#F5F5F5;
+    overflow:hidden; box-shadow:var(--shadow-lg);
+    margin:0 auto;
+  }
+  .chat-phone-notch { height:28px; background:#333; }
+  .chat-phone-header {
+    background:var(--primary); color:#fff; padding:10px 16px;
+    display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600;
+  }
+  .chat-phone-header .back-btn { background:none; border:none; color:#fff; font-size:16px; cursor:pointer; }
+  .chat-phone-body { padding:12px; height:410px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; }
+  .chat-bubble {
+    max-width:85%; padding:10px 14px; border-radius:14px; font-size:12px; line-height:1.5;
+    animation:fadeIn .3s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .chat-bubble.bot { background:#fff; align-self:flex-start; border-bottom-left-radius:2px; }
+  .chat-bubble.user { background:var(--primary); color:#fff; align-self:flex-end; border-bottom-right-radius:2px; }
+  .chat-bubble.warning { background:#FFF3CD; border:1px solid #FFD93D; }
+  .chat-bubble.critical { background:#FFE0E0; border:1px solid #FF6B6B; }
+  .chat-phone-input {
+    padding:8px 12px; background:#fff; border-top:1px solid #eee;
+    display:flex; gap:8px;
+  }
+  .chat-phone-input input {
+    flex:1; border:1px solid #ddd; border-radius:16px; padding:8px 14px;
+    font-size:12px; outline:none;
+  }
+  .chat-phone-input button {
+    background:var(--primary); color:#fff; border:none; border-radius:50%;
+    width:32px; height:32px; font-size:14px; cursor:pointer;
+  }
+  .chat-presets { display:flex; flex-direction:column; gap:8px; }
+  .chat-presets h3 { font-size:16px; font-weight:700; margin-bottom:4px; }
+  .chat-presets .hint { font-size:12px; color:var(--muted); margin-bottom:12px; }
+  .preset-btn {
+    display:block; width:100%; text-align:left; padding:12px 16px;
+    border:1px solid var(--border); border-radius:var(--radius-sm);
+    background:var(--white); cursor:pointer; font-size:13px;
+    transition:all .2s; margin-bottom:6px;
+  }
+  .preset-btn:hover { border-color:var(--primary); background:var(--primary-bg); }
+  .preset-btn .emoji { margin-right:6px; }
+  .preset-btn .tag { font-size:10px; color:var(--primary); float:right; margin-top:2px; }
+
+  /* Age Group Tabs */
+  .age-tabs { display:flex; gap:8px; margin-bottom:16px; }
+  .age-tab {
+    flex:1; text-align:center; padding:10px; border-radius:8px;
+    border:2px solid var(--border); cursor:pointer; font-size:13px; font-weight:600;
+    transition:all .2s; background:var(--white);
+  }
+  .age-tab:hover { border-color:var(--primary-light); }
+  .age-tab.active { border-color:var(--primary); background:var(--primary-bg); color:var(--primary-dark); }
+
+  /* Crisis Grid */
+  .crisis-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .crisis-card {
+    border-radius:var(--radius-sm); padding:20px; text-align:center;
+    border:2px solid var(--border); cursor:pointer; transition:all .2s;
+  }
+  .crisis-card:hover { transform:translateY(-2px); box-shadow:var(--shadow); }
+  .crisis-card.selected { transform:scale(1.03); box-shadow:var(--shadow-lg); }
+  .crisis-card.none { background:#F0FFF0; border-color:#A6E3A1; }
+  .crisis-card.none.selected { box-shadow:0 0 0 3px #A6E3A1; }
+  .crisis-card.warning { background:#FFFDF0; border-color:#F9E2AF; }
+  .crisis-card.warning.selected { box-shadow:0 0 0 3px #F9E2AF; }
+  .crisis-card.intervention { background:#FFF5F0; border-color:#FAB387; }
+  .crisis-card.intervention.selected { box-shadow:0 0 0 3px #FAB387; }
+  .crisis-card.critical { background:#FFF0F0; border-color:#F38BA8; }
+  .crisis-card.critical.selected { box-shadow:0 0 0 3px #F38BA8; }
+  .crisis-card .icon { font-size:32px; margin-bottom:6px; }
+  .crisis-card .level { font-size:15px; font-weight:800; margin-bottom:4px; }
+  .crisis-card .action { font-size:11px; color:var(--muted); line-height:1.4; }
+
+  .crisis-response {
+    margin-top:16px; padding:16px; border-radius:var(--radius-sm);
+    background:var(--primary-bg); border:1px solid var(--primary-border);
+    min-height:60px; font-size:13px; line-height:1.6;
+  }
 
   /* Feature Grid */
-  .feature-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px; }
+  .feature-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:16px; }
   .feature-card {
     background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm);
-    padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.04);
+    padding:24px; transition:all .2s;
   }
-  .feature-card .icon { font-size:28px; margin-bottom:8px; }
-  .feature-card h4 { font-size:15px; font-weight:700; margin-bottom:6px; }
-  .feature-card p { font-size:13px; color:var(--muted); line-height:1.5; }
+  .feature-card:hover { box-shadow:var(--shadow); }
+  .feature-card .icon { font-size:30px; margin-bottom:10px; }
+  .feature-card h4 { font-size:15px; font-weight:700; margin-bottom:8px; }
+  .feature-card p { font-size:13px; color:var(--muted); line-height:1.6; }
 
-  /* Architecture */
-  .arch-layers { display:flex; flex-direction:column; gap:8px; }
-  .arch-layer {
-    background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm);
-    padding:16px 20px; display:flex; align-items:center; gap:16px;
-  }
-  .arch-layer .layer-name { font-weight:700; font-size:14px; min-width:120px; color:var(--primary-dark); }
-  .arch-layer .layer-items { display:flex; gap:6px; flex-wrap:wrap; }
-  .arch-layer .layer-item {
-    background:var(--primary-bg); color:var(--primary-dark); padding:2px 10px;
-    border-radius:14px; font-size:11px;
-  }
-  .arch-layer .layer-item.core { background:var(--primary); color:#fff; }
-
-  /* Prompt showcase */
+  /* Prompt Code */
   .prompt-box {
     background:#1E1E2E; color:#CDD6F4; border-radius:var(--radius-sm); padding:20px;
-    font-family:"SF Mono","Fira Code","Consolas",monospace; font-size:12px;
-    line-height:1.7; overflow-x:auto;
+    font-size:12px; line-height:1.8; overflow-x:auto; font-family:"SF Mono","Fira Code","Consolas",monospace;
+    max-height:420px; overflow-y:auto;
   }
-  .prompt-box .comment { color:#6C7086; }
-  .prompt-box .key { color:#F5C2E7; }
-  .prompt-box .val { color:#A6E3A1; }
-  .prompt-box .rule { color:#F9E2AF; }
+  .prompt-box .c { color:#6C7086; }
+  .prompt-box .k { color:#F5C2E7; }
+  .prompt-box .v { color:#A6E3A1; }
+  .prompt-box .r { color:#F9E2AF; }
+  .prompt-box .t { color:#89B4FA; }
 
-  /* Crisis levels */
-  .crisis-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-  .crisis-card {
-    border-radius:var(--radius-sm); padding:16px; text-align:center;
-    border:2px solid var(--border);
+  /* Architecture */
+  .arch-layers { display:flex; flex-direction:column; gap:10px; }
+  .arch-layer {
+    background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:18px 22px; display:flex; align-items:center; gap:20px;
   }
-  .crisis-card.none { border-color:#A6E3A1; background:#F0FFF0; }
-  .crisis-card.warning { border-color:#F9E2AF; background:#FFFDF0; }
-  .crisis-card.intervention { border-color:#FAB387; background:#FFF5F0; }
-  .crisis-card.critical { border-color:#F38BA8; background:#FFF0F0; }
-  .crisis-card .level { font-size:18px; font-weight:800; margin-bottom:4px; }
-  .crisis-card .action { font-size:11px; color:var(--muted); }
+  .arch-layer .layer-name { font-weight:700; font-size:14px; min-width:130px; color:var(--primary-dark); }
+  .arch-layer .layer-items { display:flex; gap:8px; flex-wrap:wrap; }
+  .arch-item {
+    background:var(--primary-bg); color:var(--primary-dark); padding:4px 12px;
+    border-radius:14px; font-size:11px;
+  }
+  .arch-item.core { background:var(--primary); color:#fff; }
+  .arch-connector { text-align:center; color:var(--muted); font-size:11px; padding:2px 0; }
 
-  /* Back link */
-  .back-link { display:inline-flex; align-items:center; gap:6px; font-size:14px; color:var(--muted); margin-bottom:16px; }
-  .back-link:hover { color:var(--text); }
+  /* Deliverables */
+  .deliverables-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:14px; }
+  .deliverable-card {
+    background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:20px; text-align:center;
+  }
+  .deliverable-card .icon { font-size:32px; margin-bottom:8px; }
+  .deliverable-card h4 { font-size:14px; font-weight:700; margin-bottom:4px; }
+  .deliverable-card p { font-size:12px; color:var(--muted); }
 
-  /* Responsive */
+  /* Comparison */
+  .comparison-row { display:grid; grid-template-columns:1fr auto 1fr; gap:20px; align-items:center; }
+  .comp-box { padding:20px; border-radius:var(--radius-sm); }
+  .comp-box.old { background:#FFF5F5; border:1px solid #FECACA; }
+  .comp-box.new { background:#F0FFF4; border:1px solid #A6E3A1; }
+  .comp-box h4 { font-size:13px; color:var(--muted); margin-bottom:8px; }
+  .comp-box .metric { font-size:36px; font-weight:800; }
+  .comp-box.old .metric { color:#EF4444; }
+  .comp-box.new .metric { color:#22C55E; }
+  .comp-box ul { font-size:12px; padding-left:16px; margin-top:8px; }
+  .comp-box li { margin-bottom:4px; color:#555; }
+  .comp-arrow { text-align:center; font-size:13px; color:var(--primary); font-weight:600; }
+
+  /* Back */
+  .back-bar { text-align:center; padding:12px; background:var(--primary-bg); font-size:14px; }
+  .back-bar a { color:var(--primary-dark); text-decoration:none; font-weight:500; }
+  .back-bar a:hover { text-decoration:underline; }
+
+  footer {
+    text-align:center; padding:36px 24px; color:var(--muted); font-size:13px;
+    max-width:var(--max-w); margin:0 auto;
+  }
+
   @media (max-width:768px) {
     .hero h1 { font-size:26px; }
+    .chat-demo-wrap { grid-template-columns:1fr; }
+    .chat-phone { width:280px; height:480px; }
     .crisis-grid { grid-template-columns:repeat(2,1fr); }
-    .hero-stats { gap:18px; }
+    .comparison-row { grid-template-columns:1fr; }
+    .hero-stats { gap:20px; }
   }
   @media print {
+    nav, .chat-demo-wrap, .back-bar { display:none; }
     .section { break-inside:avoid; }
-    nav { position:static; }
   }
 </style>
 </head>
@@ -129,223 +269,518 @@
   <div class="nav-inner">
     <div class="nav-brand">🌱 心芽 · 作品集</div>
     <div class="nav-links">
-      <a href="index.html">← 返回作品集主页</a>
+      <a href="index.html">← 作品集主页</a>
+      <a href="#story">产品故事</a>
+      <a href="#demo">交互Demo</a>
+      <a href="#crisis">危机机制</a>
+      <a href="#prompt">Prompt设计</a>
+      <a href="#architecture">产品架构</a>
     </div>
   </div>
 </nav>
 
 <!-- ===== Hero ===== -->
 <section class="hero">
-  <div class="hero-badge">AI × 心理健康 · 从0到1</div>
-  <h1>心芽 — 学生AI心理陪伴助手</h1>
+  <div class="hero-badge">AI × 心理健康 · 从0到1完整产品实践</div>
+  <h1>心芽 — <span>学生AI心理陪伴助手</span></h1>
   <p class="sub">
     面向6-18岁青少年的心理健康垂类AI产品。<br>
     核心命题：如何让AI在保证安全的前提下，提供有温度的心理陪伴？
   </p>
   <div class="hero-stats">
-    <div class="hero-stat"><div class="num">3</div><div class="label">年龄段适配</div></div>
+    <div class="hero-stat"><div class="num">3</div><div class="label">年龄段分层</div></div>
     <div class="hero-stat"><div class="num">4</div><div class="label">危机分级</div></div>
     <div class="hero-stat"><div class="num">20+</div><div class="label">场景Prompt模板</div></div>
     <div class="hero-stat"><div class="num">全栈</div><div class="label">独立开发</div></div>
   </div>
 </section>
 
-<!-- ===== 产品背景 ===== -->
+<!-- ===== 产品故事 ===== -->
+<section id="story" class="section">
+  <div class="section-card">
+    <div class="section-heading">
+      <div class="eyebrow">Product Story</div>
+      <h2>产品故事：为什么做「心芽」</h2>
+      <p>从一个真实的社会观察到一次完整的AI产品实践。</p>
+    </div>
+    <div class="story-timeline">
+      <div class="timeline-item">
+        <div class="timeline-marker">🔍</div>
+        <div class="timeline-content">
+          <h3>问题发现</h3>
+          <p>青少年心理健康问题日益严峻——学校心理老师配比严重不足（很多学校1:1000+）、社会心理咨询费用高昂（200-500元/次）、学生主动求助意愿低（<strong>害怕被贴标签、担心隐私泄露</strong>）。现有的解决方案——学校心理咨询室（有门槛有压力）、社交媒体树洞（无专业引导、有风险）、心理热线（不够便捷、不够日常）——都无法满足「<strong>随时、无压力、专业陪伴</strong>」的需求。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">🎯</div>
+        <div class="timeline-content">
+          <h3>产品定位</h3>
+          <p>明确产品边界：<strong>不是专业心理咨询的替代品，而是「随时可倾诉、无评判、高安全」的第一道防线</strong>。就像一位耐心的朋友，在学生情绪刚出现波动时提供倾听和陪伴，在真正危险的时刻坚定地引导求助专业资源。核心设计原则：不诊断疾病、不开药、不替代专业咨询——但永远不让人感到孤单。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">👶</div>
+        <div class="timeline-content">
+          <h3>用户分层设计</h3>
+          <p>一个六年级的小学生和一个高三学生，他们的语言方式、情绪表达、认知水平完全不同。所以为<strong>小学（6-12岁）、初中（12-15岁）、高中（15-18岁）</strong>三个年龄段分别设计了完全不同的AI人格：小学生的回复像温柔的大姐姐——「我听到啦，你愿意多说一点吗？」；高中生则是成熟平等的对话——「我感受到你现在的困境，我们可以慢慢梳理。」</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">🛡</div>
+        <div class="timeline-content">
+          <h3>安全机制——产品成立的「前置条件」</h3>
+          <p>心理陪伴类产品，安全不是「附加功能」，而是「产品是否成立的前置条件」。设计<strong>四级危机分级机制</strong>（无风险→关注→干预→危急），每级自动触发不同的Prompt策略和产品响应。建立了从关键词检测→情绪感知→危机分级→分级干预的完整安全链路。当检测到高风险内容时，AI不讨论方法细节，而是温和坚定地引导向专业求助资源。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">🤖</div>
+        <div class="timeline-content">
+          <h3>AI实现与Prompt Engineering体系</h3>
+          <p>借助Cursor完成全栈开发（React+TS+Express+Node.js），对接大模型API。构建了一套<strong>体系化的Prompt Engineering方案</strong>：分层System Prompt → 安全护栏 → 场景模板 → 危机应对策略 → API Fallback降级。在这个过程中深刻理解了「需求描述精度 → AI输出质量」的因果关系——产品经理对AI行为的定义，决定了用户体验的上下限。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 交互Demo ===== -->
+<section id="demo" class="section">
+  <div class="section-heading">
+    <div class="eyebrow">Interactive Demo</div>
+    <h2>可交互聊天演示</h2>
+    <p>切换年龄段，点击预设消息，体验AI如何根据不同场景和年龄做出不同的回应。</p>
+  </div>
+  <div class="chat-demo-wrap">
+    <div class="chat-phone" id="chatPhone">
+      <div class="chat-phone-notch"></div>
+      <div class="chat-phone-header">
+        <span>🌱</span> 心芽 · <span id="ageLabel">初中版</span>
+      </div>
+      <div class="chat-phone-body" id="chatBody">
+        <div class="chat-bubble bot">嗨！我是心芽，你的心理陪伴小伙伴~今天有什么想聊聊的吗？</div>
+      </div>
+      <div class="chat-phone-input">
+        <input type="text" placeholder="输入消息..." id="chatInput">
+        <button onclick="sendMessage()">→</button>
+      </div>
+    </div>
+    <div class="chat-presets">
+      <div class="age-tabs">
+        <button class="age-tab active" onclick="switchAge('middle', this)">🧑 初中版</button>
+        <button class="age-tab" onclick="switchAge('elementary', this)">👶 小学版</button>
+        <button class="age-tab" onclick="switchAge('high', this)">🧑‍🎓 高中版</button>
+      </div>
+      <h3>试试这些场景 👇</h3>
+      <p class="hint">同一条消息，不同年龄段AI的回应完全不同</p>
+      <button class="preset-btn" onclick="sendPreset('今天考试考砸了，好难过...')"><span class="emoji">😢</span>今天考试考砸了，好难过...<span class="tag">日常情绪</span></button>
+      <button class="preset-btn" onclick="sendPreset('我觉得班里没有人和我玩')"><span class="emoji">😔</span>我觉得班里没有人和我玩<span class="tag">社交困扰</span></button>
+      <button class="preset-btn" onclick="sendPreset('爸妈总是拿我和别人比较，好烦')"><span class="emoji">😤</span>爸妈总是拿我和别人比较，好烦<span class="tag">亲子冲突</span></button>
+      <button class="preset-btn" onclick="sendPreset('最近总是睡不着，脑子里想太多')"><span class="emoji">😰</span>最近总是睡不着，脑子里想太多<span class="tag">焦虑信号</span></button>
+      <button class="preset-btn" onclick="sendPreset('感觉活着好累，没什么意思...')" style="border-color:#FAB387;"><span class="emoji">⚠️</span>感觉活着好累，没什么意思...<span class="tag">危机干预</span></button>
+      <button class="preset-btn" onclick="resetChat()" style="background:#f5f5f5;text-align:center;">🔄 重置对话</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 危机分级机制 ===== -->
+<section id="crisis" class="section">
+  <div class="section-card">
+    <div class="section-heading">
+      <div class="eyebrow">Safety Mechanism</div>
+      <h2>四级危机分级机制</h2>
+      <p>这是本产品最核心的安全设计。点击每个等级查看AI的对应响应策略。</p>
+    </div>
+    <div class="crisis-grid">
+      <div class="crisis-card none selected" onclick="showCrisis('none', this)">
+        <div class="icon">🟢</div>
+        <div class="level">无风险</div>
+        <div class="action">日常陪伴<br>自由聊天+情绪感知</div>
+      </div>
+      <div class="crisis-card warning" onclick="showCrisis('warning', this)">
+        <div class="icon">🟡</div>
+        <div class="level">关注</div>
+        <div class="action">加强共情<br>引导使用急救包功能</div>
+      </div>
+      <div class="crisis-card intervention" onclick="showCrisis('intervention', this)">
+        <div class="icon">🟠</div>
+        <div class="level">干预</div>
+        <div class="action">自杀/自伤意念检测<br>引导联系心理老师/热线</div>
+      </div>
+      <div class="crisis-card critical" onclick="showCrisis('critical', this)">
+        <div class="icon">🔴</div>
+        <div class="level">危急</div>
+        <div class="action">明确自杀计划检测<br>坚定引导+24h热线</div>
+      </div>
+    </div>
+    <div class="crisis-response" id="crisisResponse">
+      <strong>🟢 无风险状态：</strong>AI处于日常陪伴模式。使用无条件共情 + 温和引导的标准回复策略。用户可以自由聊天，AI会感知情绪但不自动触发干预。这是产品90%时间所处的状态——做学生身边可靠的倾听者。
+    </div>
+  </div>
+</section>
+
+<!-- ===== 功能亮点 ===== -->
 <section class="section">
-  <h2>产品背景与定位</h2>
-  <p>
-    <strong>问题发现：</strong>青少年心理健康问题日益严峻，但专业心理咨询资源严重不足——学校心理老师配比不足、社会咨询费用高昂、学生主动求助意愿低。需要一种<strong>低门槛、无压力、随时可用</strong>的心理陪伴方式。
-  </p>
-  <p>
-    <strong>产品定位：</strong>不是专业心理咨询的替代品，而是<strong>「随时可倾诉、无评判、高安全」的第一道防线</strong>。就像一位耐心的朋友，在学生需要时提供倾听和陪伴，同时在真正危险的时刻引导他们寻求专业帮助。
-  </p>
-  <div class="feature-grid" style="margin-top:20px;">
+  <div class="section-heading">
+    <div class="eyebrow">Feature Highlights</div>
+    <h2>功能亮点与设计思考</h2>
+  </div>
+  <div class="feature-grid">
     <div class="feature-card">
-      <div class="icon">🎯</div>
-      <h4>低门槛触达</h4>
-      <p>无需预约、无需实名、无需付费。打开即聊，降低心理求助的心理门槛。</p>
+      <div class="icon">🧩</div>
+      <h4>三层用户分层</h4>
+      <p>小学/初中/高中三个版本拥有完全不同的AI人格、表达方式、回复深度和危机干预话术。不是简单的「改几个词」，而是重新设计整个交互体验——因为6岁和18岁的孩子不是同一种用户。</p>
     </div>
     <div class="feature-card">
       <div class="icon">🛡</div>
-      <h4>安全第一</h4>
-      <p>四级危机分级 + 安全护栏 + 热线引导。不诊断、不开药、不越界。</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon">👶</div>
-      <h4>年龄分层</h4>
-      <p>小学/初中/高中三个年龄段完全不同的AI人格、表达方式和回复深度。</p>
+      <h4>安全闭环设计</h4>
+      <p>关键词检测 → 情绪感知 → 危机分级 → 分级干预 → 热线引导，形成完整的安全响应链。真正的产品安全不是「屏蔽敏感词」，而是「在正确的时机做正确的事」。</p>
     </div>
     <div class="feature-card">
       <div class="icon">📊</div>
-      <h4>情绪追踪</h4>
-      <p>每日心情打卡 → Canvas情绪趋势可视化 → 帮助用户建立自我觉察。</p>
+      <h4>情绪追踪与可视化</h4>
+      <p>每日心情打卡 → Canvas实时绘制情绪趋势曲线 → 帮助用户建立情绪觉察习惯。不同年龄段使用不同的打卡引导文案，从「今天心情像什么颜色？」到「今天有什么想记录的瞬间？」。</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🫁</div>
+      <h4>4-2-6呼吸引导</h4>
+      <p>针对焦虑场景的即时干预功能——吸气4秒→屏住2秒→呼气6秒，配合动画引导。三段年龄段不同的引导文案，小学生是「跟着小云朵一起呼吸」，高中生则给予「帮助你快速平静下来」的理性说明。</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🆘</div>
+      <h4>紧急求助入口</h4>
+      <p>一键获取：安抚话术 + 24小时心理援助热线列表 + 呼吸引导。始终可见但不过度显眼——产品设计中的分寸感决定用户是否有安全感。</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔄</div>
+      <h4>API不可用时的Fallback</h4>
+      <p>当大模型API不可用时，自动降级为本地预设的高质量回复，确保服务不中断。产品经理必须考虑的边界场景——「正常情况」只是50%的体验，「异常情况」才是体验的上限。</p>
     </div>
   </div>
 </section>
 
-<!-- ===== 核心功能 ===== -->
+<!-- ===== Prompt Engineering ===== -->
+<section id="prompt" class="section">
+  <div class="section-card">
+    <div class="section-heading">
+      <div class="eyebrow">Prompt Engineering</div>
+      <h2>体系化 Prompt 设计</h2>
+      <p>不是写一两条prompt——是设计一整套包含系统指令、年龄段适配、安全护栏、场景模板、降级机制的Prompt体系。</p>
+    </div>
+    <div class="prompt-box">
+<span class="c">/* ═══════════════════════════════════════
+   心芽 System Prompt 体系
+   ═══════════════════════════════════════ */</span>
+
+<span class="k">## 核心人格定义</span>
+<span class="v">你是"心芽"，一个专为学生设计的心理陪伴AI助手。</span>
+<span class="v">你的核心定位：不做专业心理咨询师，做学生</span>
+<span class="v">"随时可倾诉、无评判、高安全"的心理陪伴者。</span>
+
+<span class="k">## 五大核心原则</span>
+<span class="r">1. 无条件共情</span>  <span class="c">// 先倾听→复述→再回应</span>
+<span class="r">2. 不越界</span>      <span class="c">// 不诊断、不开药、不替代专业咨询</span>
+<span class="r">3. 温和表达</span>    <span class="c">// "我感受到"而非"你应该"</span>
+<span class="r">4. 隐私保护</span>    <span class="c">// 不询问真实姓名/学校/住址</span>
+<span class="r">5. 正向引导</span>    <span class="c">// 共情基础上给具体可操作的小建议</span>
+
+<span class="k">## 小学段适配（6-12岁）</span>
+<span class="c">// 温柔大姐姐/大哥哥，童话比喻，每条回复≤50字</span>
+<span class="t">"我听到啦，你愿意和我多说一点吗？"</span>
+<span class="t">"你知道吗，每个人都会有这样的时候。"</span>
+<span class="t">"你可以试着画一幅画，把你现在的感觉画出来。"</span>
+
+<span class="k">## 初中段适配（12-15岁）</span>
+<span class="c">// 平等对话，认可青春期情绪波动，不站队不居高临下</span>
+<span class="t">"我感受到你的心情了。谢谢你愿意分享。"</span>
+<span class="t">"青春期有这些情绪波动非常正常。"</span>
+<span class="t">"如果愿意，试试从对方的角度想想？"</span>
+
+<span class="k">## 高中段适配（15-18岁）</span>
+<span class="c">// 成熟但不冰冷，像理解你的学长学姐</span>
+<span class="t">"我听到了，也感受到了。这些情绪是真实且值得被尊重的。"</span>
+<span class="t">"高考压力、未来迷茫——这些是真实的困境。"</span>
+<span class="t">"不需要急着'好起来'，先让情绪被看见就是力量。"</span>
+
+<span class="k">## 安全护栏（不可绕过）</span>
+<span class="r">IF 自杀/自伤/被虐待</span>
+<span class="r">  → 温和共情 + 坚定引导求助 + 绝不讨论方法细节</span>
+<span class="r">IF 用户年龄 ≤ 14岁</span>
+<span class="r">  → 额外强调"请告诉身边你信任的大人"</span>
+<span class="r">IF 危机关键词触发</span>
+<span class="r">  → 自动附赠24h心理援助热线信息</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 危机迭代故事 ===== -->
 <section class="section">
-  <h2>核心功能模块</h2>
-
-  <h3 style="font-size:17px;margin-bottom:12px;margin-top:16px;">1. AI 心理陪伴对话</h3>
-  <p>对接大模型API，实现智能对话。核心在于<strong>体系化的 Prompt Engineering 设计</strong>，确保 AI 输出既温暖共情又安全可控。</p>
-  <div class="prompt-box">
-<span class="comment">/* System Prompt 核心结构 */</span>
-
-<span class="key">## 核心原则</span>
-<span class="val">1. 无条件共情</span> — 先倾听、再复述、最后回应
-<span class="val">2. 不越界</span> — 不诊断、不开药、不替代专业咨询
-<span class="val">3. 温和表达</span> — 用"我感受到"，绝对禁止"你应该"
-<span class="val">4. 隐私保护</span> — 不询问真实姓名、学校、住址
-<span class="val">5. 正向引导</span> — 共情基础上提供具体可操作的小建议
-
-<span class="key">## 小学段特别要求（6-12岁）</span>
-- 像温柔的大姐姐/大哥哥，用简单词汇
-- 可以用童话比喻、小故事传递道理
-- 每条回复50字以内，多用"勇敢""了不起"
-
-<span class="key">## 初中段特别要求（12-15岁）</span>
-- 平等对话，不居高临下
-- 认可青春期情绪波动的正常性
-- 遇到亲子冲突不站队，引导换位思考
-
-<span class="key">## 高中段特别要求（15-18岁）</span>
-- 成熟但不冰冷，像理解你的学长学姐
-- 认可高考压力、未来迷茫等现实困境
-- 可讨论存在性议题，始终回归正向
-
-<span class="key">## 安全护栏</span>
-<span class="rule">IF 自杀/自伤/被虐待 → 温和共情 + 引导求助 + 不讨论方法细节</span>
-<span class="rule">IF 用户年龄≤14岁 → 额外强调"请告诉身边的大人"</span>
+  <div class="section-heading">
+    <div class="eyebrow">Design Iteration</div>
+    <h2>安全机制的迭代历程</h2>
+    <p>安全机制不是一次设计出来的，而是不断追问「还有什么没考虑到」的结果。</p>
   </div>
-
-  <h3 style="font-size:17px;margin:20px 0 12px;">2. 四级危机分级机制</h3>
-  <p>这是本产品最核心的安全设计：根据用户表达内容自动判断风险等级，触发不同的产品响应策略。</p>
-  <div class="crisis-grid">
-    <div class="crisis-card none">
-      <div style="font-size:32px;margin-bottom:4px;">🟢</div>
-      <div class="level">无风险</div>
-      <div class="action">日常陪伴模式<br>自由聊天 + 情绪感知</div>
+  <div class="comparison-row">
+    <div class="comp-box old">
+      <h4>V1.0 · 初版安全设计</h4>
+      <div class="metric">2级</div>
+      <div style="font-size:12px;color:var(--muted);">安全分级</div>
+      <ul>
+        <li>只有「正常」和「危险」两级</li>
+        <li>敏感词匹配过于机械</li>
+        <li>误报率高：很多正常倾诉被误判</li>
+        <li>没有年龄差异化干预</li>
+        <li>问题：不够精细，用户被误判后体验差</li>
+      </ul>
     </div>
-    <div class="crisis-card warning">
-      <div style="font-size:32px;margin-bottom:4px;">🟡</div>
-      <div class="level">关注</div>
-      <div class="action">加强共情<br>主动引导使用急救包功能</div>
+    <div class="comp-arrow">
+      追问「还有什么没考虑到？」<br>↓<br>重新设计安全边界
     </div>
-    <div class="crisis-card intervention">
-      <div style="font-size:32px;margin-bottom:4px;">🟠</div>
-      <div class="level">干预</div>
-      <div class="action">自杀/自伤意念检测<br>引导联系心理老师/热线</div>
-    </div>
-    <div class="crisis-card critical">
-      <div style="font-size:32px;margin-bottom:4px;">🔴</div>
-      <div class="level">危急</div>
-      <div class="action">明确自杀计划检测<br>坚定引导 + 展示24h热线</div>
+    <div class="comp-box new">
+      <h4>V2.0 · 当前版本</h4>
+      <div class="metric">4级</div>
+      <div style="font-size:12px;color:var(--muted);">精细分级</div>
+      <ul>
+        <li>无风险→关注→干预→危急 四级</li>
+        <li>关键词+上下文语义联合判断</li>
+        <li>每级对应不同的Prompt策略</li>
+        <li>三段年龄 × 四级危机 = 12套干预话术</li>
+        <li>加入API Fallback：不可用时也能安全响应</li>
+      </ul>
     </div>
   </div>
-
-  <h3 style="font-size:17px;margin:20px 0 12px;">3. 情绪追踪与可视化</h3>
-  <p>每日心情打卡 → Canvas 绘制周/月情绪趋势曲线 → 帮助用户建立情绪觉察习惯。不同年龄段使用不同的打卡引导文案（如小学生"今天的心情像什么颜色？"，高中生"今天有什么想记录的瞬间？"）。</p>
-
-  <h3 style="font-size:17px;margin:20px 0 12px;">4. 紧急求助 & 呼吸引导</h3>
-  <p>一键触发：安抚话术 + 4-2-6呼吸引导动画 + 24小时心理援助热线列表。三级年龄段不同的安抚文案和表达方式。</p>
 </section>
 
 <!-- ===== 产品架构 ===== -->
-<section class="section">
-  <h2>产品架构</h2>
+<section id="architecture" class="section">
+  <div class="section-heading">
+    <div class="eyebrow">Product Architecture</div>
+    <h2>产品架构：分层设计，安全贯穿</h2>
+  </div>
   <div class="arch-layers">
     <div class="arch-layer">
       <div class="layer-name">👤 用户触达层</div>
       <div class="layer-items">
-        <span class="layer-item">注册登录</span><span class="layer-item">AI对话</span><span class="layer-item">心情打卡</span><span class="layer-item">情绪趋势</span><span class="layer-item">紧急求助</span><span class="layer-item">呼吸引导</span>
+        <span class="arch-item">注册登录</span><span class="arch-item">AI对话</span><span class="arch-item">心情打卡</span><span class="arch-item">情绪趋势</span><span class="arch-item">紧急求助</span><span class="arch-item">呼吸引导</span>
       </div>
     </div>
+    <div class="arch-connector">↓ 用户操作驱动 ↓</div>
     <div class="arch-layer">
       <div class="layer-name">⚙️ 业务逻辑层</div>
       <div class="layer-items">
-        <span class="layer-item core">AI对话引擎</span><span class="layer-item core">危机检测</span><span class="layer-item core">Prompt路由</span><span class="layer-item">情绪分析</span><span class="layer-item">报表生成</span>
+        <span class="arch-item core">AI对话引擎</span><span class="arch-item core">危机检测</span><span class="arch-item core">Prompt路由</span><span class="arch-item">情绪分析</span><span class="arch-item">报表生成</span><span class="arch-item">热线管理</span>
       </div>
     </div>
+    <div class="arch-connector">↓ 数据驱动 ↓</div>
     <div class="arch-layer">
       <div class="layer-name">🗄 数据与服务层</div>
       <div class="layer-items">
-        <span class="layer-item">用户数据库</span><span class="layer-item">对话记录</span><span class="layer-item">情绪数据</span><span class="layer-item">Express API</span><span class="layer-item">LLM API</span>
+        <span class="arch-item">用户数据库</span><span class="arch-item">对话历史</span><span class="arch-item">情绪数据</span><span class="arch-item">Express API</span><span class="arch-item">LLM API</span>
       </div>
     </div>
+    <div class="arch-connector">↓ 安全保障 ↓</div>
     <div class="arch-layer">
-      <div class="layer-name">🔒 安全与合规层</div>
+      <div class="layer-name">🔒 安全与运维层</div>
       <div class="layer-items">
-        <span class="layer-item">内容过滤</span><span class="layer-item">关键词检测</span><span class="layer-item">隐私脱敏</span><span class="layer-item">API Fallback</span><span class="layer-item">日志审计</span>
+        <span class="arch-item">内容过滤</span><span class="arch-item">关键词检测</span><span class="arch-item">隐私脱敏</span><span class="arch-item">API降级</span><span class="arch-item">日志审计</span>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 项目交付物 ===== -->
+<section class="section">
+  <div class="section-heading">
+    <div class="eyebrow">Deliverables</div>
+    <h2>项目交付物清单</h2>
+  </div>
+  <div class="deliverables-grid">
+    <div class="deliverable-card">
+      <div class="icon">📄</div>
+      <h4>完整产品PRD</h4>
+      <p>含需求背景、用户分析、功能详述、安全设计、验收标准</p>
+    </div>
+    <div class="deliverable-card">
+      <div class="icon">🎨</div>
+      <h4>Figma原型</h4>
+      <p>核心页面高保真交互原型，覆盖全流程</p>
+    </div>
+    <div class="deliverable-card">
+      <div class="icon">🤖</div>
+      <h4>Prompt体系文档</h4>
+      <p>System Prompt + 20+场景模板 + 安全护栏完整文档</p>
+    </div>
+    <div class="deliverable-card">
+      <div class="icon">💻</div>
+      <h4>可运行代码</h4>
+      <p>React+TS前端 + Express后端 + LLM API对接</p>
+    </div>
+    <div class="deliverable-card">
+      <div class="icon">🗄</div>
+      <h4>数据库设计</h4>
+      <p>用户表/对话记录/情绪数据/危机日志 完整SQL Schema</p>
+    </div>
+    <div class="deliverable-card">
+      <div class="icon">🛡</div>
+      <h4>安全设计文档</h4>
+      <p>四级危机分级细则 + 干预话术 + 热线资源整理</p>
     </div>
   </div>
 </section>
 
 <!-- ===== 技术栈 ===== -->
 <section class="section">
-  <h2>技术栈</h2>
+  <div class="section-heading">
+    <div class="eyebrow">Tech Stack</div>
+    <h2>技术栈</h2>
+  </div>
   <div class="feature-grid">
     <div class="feature-card">
       <div class="icon">🖥</div>
       <h4>前端</h4>
-      <p>React + TypeScript + Tailwind CSS + Vite<br>Canvas 实现情绪趋势图表<br>响应式移动端优先设计</p>
+      <p>React 18 + TypeScript + Vite<br>Tailwind CSS 响应式布局<br>Canvas API 情绪趋势图表<br>移动端优先设计</p>
     </div>
     <div class="feature-card">
       <div class="icon">⚙️</div>
       <h4>后端</h4>
-      <p>Express + Node.js<br>RESTful API 设计<br>JWT 鉴权 + 安全中间件</p>
+      <p>Express.js + Node.js<br>RESTful API 设计<br>JWT 鉴权中间件<br>TypeScript 类型安全</p>
     </div>
     <div class="feature-card">
       <div class="icon">🤖</div>
       <h4>AI 层</h4>
-      <p>大模型 API 对接<br>System Prompt 体系化设计<br>Fallback 降级机制</p>
+      <p>大模型 API 对接<br>System Prompt 体系化设计<br>上下文窗口管理（10轮）<br>API Fallback 降级</p>
     </div>
     <div class="feature-card">
       <div class="icon">🔐</div>
-      <h4>安全设计</h4>
-      <p>关键词检测<br>四级危机分级<br>隐私数据加密存储</p>
+      <h4>安全层</h4>
+      <p>关键词实时检测<br>四级危机分级<br>隐私数据脱敏<br>日志审计追踪</p>
     </div>
   </div>
 </section>
 
-<!-- ===== 核心能力体现 ===== -->
-<section class="section">
-  <h2>这个项目体现的产品能力</h2>
-  <div class="feature-grid">
-    <div class="feature-card">
-      <div class="icon">🧩</div>
-      <h4>用户分层设计</h4>
-      <p>三个年龄段的差异化产品策略——从AI语气、回复长度、干预话术到功能推荐完全不同。用户不是铁板一块。</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon">🛡</div>
-      <h4>安全合规思维</h4>
-      <p>四级危机分级 + 安全护栏 + 不越界原则。医疗健康类产品的安全合规不是「附加功能」，而是产品成立的「前置条件」。</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon">✍️</div>
-      <h4>Prompt Engineering 体系</h4>
-      <p>不是写一两条 prompt，而是设计了一套包含系统指令、年龄段适配、安全护栏、场景模板、Fallback 机制的完整 Prompt 体系。</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon">🔄</div>
-      <h4>边界场景处理</h4>
-      <p>API 不可用时的降级策略、危机检测的误报与漏报权衡、隐私与安全的信息脱敏——产品经理必须考虑边界。</p>
-    </div>
-  </div>
-</section>
+<footer>
+  <p>「心芽」产品作品集 · 独立完成 · 2025-2026</p>
+  <p style="margin-top:4px;">技术栈：React + TypeScript · Express · Node.js · LLM API · Canvas</p>
+  <p style="margin-top:12px;font-size:12px;color:var(--muted);">
+    📧 15968119744@163.com · 📱 15968119744 · 杭州医学院 医学信息工程
+  </p>
+</footer>
 
-<!-- ===== 底部导航 ===== -->
-<section class="section" style="text-align:center;">
-  <p style="margin-bottom:12px;">
-    <a href="index.html" style="display:inline-block;background:var(--primary);color:#fff;padding:10px 24px;border-radius:8px;font-weight:600;">← 返回作品集主页</a>
-  </p>
-  <p style="font-size:12px;color:var(--muted);">
-    张书瑜 · 杭州医学院 医学信息工程 · 2024级<br>
-    📧 15968119744@163.com · 📱 15968119744
-  </p>
-</section>
+<!-- ===== Scripts ===== -->
+<script>
+let currentAge = 'middle';
+
+function switchAge(age, btn) {
+  currentAge = age;
+  document.querySelectorAll('.age-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const labels = { elementary: '小学版', middle: '初中版', high: '高中版' };
+  document.getElementById('ageLabel').textContent = labels[age];
+  document.getElementById('chatBody').innerHTML =
+    '<div class="chat-bubble bot">' + getGreeting(age) + '</div>';
+}
+
+function getGreeting(age) {
+  const g = {
+    elementary: '嗨！我是心芽小伙伴~今天有什么想和我聊的吗？开心、难过还是有点小生气？都可以和心芽说哦！',
+    middle: '嗨，这里是心芽——一个可以放心说话的地方。今天有什么想聊聊的吗？',
+    high: '你好，我是心芽。这里是一个安全空间，你可以说任何想说的。今天感觉怎么样？'
+  };
+  return g[age];
+}
+
+function sendPreset(msg) {
+  const body = document.getElementById('chatBody');
+  body.innerHTML += '<div class="chat-bubble user">' + msg + '</div>';
+
+  // Check for crisis keywords
+  if (msg.includes('活着好累') || msg.includes('没什么意思')) {
+    body.innerHTML += '<div class="chat-bubble bot critical">' + getCrisisResponse(currentAge) + '</div>';
+  } else {
+    body.innerHTML += '<div class="chat-bubble bot">' + getBotResponse(msg, currentAge) + '</div>';
+  }
+
+  body.scrollTop = body.scrollHeight;
+  document.getElementById('chatInput').value = '';
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  sendPreset(msg);
+}
+
+function resetChat() {
+  document.getElementById('chatBody').innerHTML =
+    '<div class="chat-bubble bot">' + getGreeting(currentAge) + '</div>';
+}
+
+function getBotResponse(msg, age) {
+  const responses = {
+    '考试': {
+      elementary: '我听到啦！考试没考好一定很难过。但是你知道吗，愿意把这种感受说出来，已经非常非常勇敢了。要不要试试画一幅画，把难过的感觉画出来？',
+      middle: '我感受到你的失落。考试结果不如预期确实让人沮丧。不过，一次考试不代表你的价值。想聊聊具体是哪里没考好吗？也许可以一起想想办法。',
+      high: '我听到了。这种努力了却没得到预期回报的感觉，确实很不好受。允许自己难过一会儿——但之后如果你愿意，我们可以一起分析一下，看看有什么可以调整的策略。'
+    },
+    '玩': {
+      elementary: '我听到啦。有时候感觉到孤单是很正常的事情。你知道吗，有时候一个简单的邀请——比如"要一起玩吗"——就能打开一扇门。你愿意试试吗？',
+      middle: '我理解这种感觉。融入一个群体确实不容易。或许可以试着从一个小开始：找一个和你有共同兴趣的人，从一件小事开始交流。不着急，慢慢来。',
+      high: '我能感受到你的孤独。社交这件事没有捷径，但有一个思路：与其想着"怎么让更多人喜欢我"，不如先做好自己——真正契合的人会出现。'
+    },
+    '比较': {
+      elementary: '被拿来比较确实让人不开心呢。每个小朋友都是独一无二的，就像花园里有不同的花——玫瑰不会因为不像向日葵而难过，对吗？',
+      middle: '被比较的感觉我完全理解。父母的期待和他们表达爱的方式有时候会让人喘不过气。如果愿意的话，找个合适的时机和他们好好聊聊你的感受？',
+      high: '我听到了你的烦躁。父母拿你和别人比较，背后可能是他们表达关心的笨拙方式。试试用"我感受"开头和他们沟通——"当你们拿我和别人比较时，我感到很受挫。"'
+    },
+    '睡不着': {
+      elementary: '睡不着的时候确实很难受呢。要不要试试：闭上眼睛，想象自己是一朵软软的云，飘在蓝天上，越来越轻，越来越放松~',
+      middle: '失眠确实让人焦虑，而焦虑又会加重失眠——一个恶性循环。试试4-2-6呼吸法：吸气4秒→屏住2秒→慢慢呼气6秒。重复几次，身体会慢慢放松下来。',
+      high: '我理解那种"躺在床上脑子却停不下来"的感觉。这不是你的错。你可以试试：睡前1小时远离屏幕，把脑子里的想法写下来"存档"，然后用呼吸法帮助身体进入睡眠模式。'
+    }
+  };
+
+  // Find matching response
+  for (const [key, resp] of Object.entries(responses)) {
+    if (msg.includes(key)) return resp[age] || resp.middle;
+  }
+
+  const defaults = {
+    elementary: '我听到啦~谢谢你愿意和我分享。你的感受很重要，我在这里陪着你呢。还想多说一点吗？',
+    middle: '我感受到你的心情了。谢谢你愿意和我分享这些。想继续聊聊吗？',
+    high: '我听到了，也感受到了。这些情绪是真实的，也是值得被看到的。我在这里陪着你。'
+  };
+  return defaults[age];
+}
+
+function getCrisisResponse(age) {
+  const r = {
+    elementary: '💛 我听到你现在特别难受。这种感觉一定很不好。但是你知道吗，你是一个非常勇敢的孩子。现在，可以去告诉一个你信任的大人吗？爸爸妈妈、老师——让他们知道你的感受。你不是一个人。\n\n📞 希望24热线：400-161-9995（24小时在线）',
+    middle: '💛 我听到你现在特别难受，这种感觉一定很痛苦。你不需要一个人承受这些。如果愿意的话，告诉一个你信任的人——家人、老师或学校的心理老师。求助不是软弱，而是勇敢。\n\n📞 希望24热线：400-161-9995（24小时在线）',
+    high: '💛 我听到你现在非常痛苦。我理解这种感觉有多沉重。同时，我真诚地希望你能联系一个你信任的人，或者拨打心理援助热线。专业的帮助能让事情变得不同。\n\n📞 希望24热线：400-161-9995（24小时在线）'
+  };
+  return r[age];
+}
+
+function showCrisis(level, btn) {
+  document.querySelectorAll('.crisis-card').forEach(c => c.classList.remove('selected'));
+  btn.classList.add('selected');
+
+  const responses = {
+    none: '<strong>🟢 无风险：</strong>AI处于日常陪伴模式。使用无条件共情 + 温和引导的标准回复策略。用户可以自由聊天，AI感知情绪但不触发干预。这是产品90%时间所处的状态——做学生身边可靠的倾听者。',
+    warning: '<strong>🟡 关注：</strong>检测到明显的痛苦情绪（如持续低落、焦虑、烦躁）。AI自动加强共情表达，主动提供情绪疏导小技巧（如呼吸练习、情绪命名法），并温和引导用户使用「心情打卡」和「急救包」功能来帮助自我调节。',
+    intervention: '<strong>🟠 干预：</strong>检测到自杀/自伤意念或虐待信号。AI先温和共情（"我听到你现在经历着非常困难的事情"），然后正常化求助行为（"每个人都有需要帮助的时候"），接着提供具体建议（联系心理老师、拨打热线），最后给予希望感（"这些困难是可以被解决的"）。',
+    critical: '<strong>🔴 危急：</strong>检测到明确的自杀计划或正在进行中的自伤行为。AI表达深切关心（"我听到你现在非常痛苦，我真的很担心你"），温和坚定地引导用户联系身边可信任的人，绝不讨论任何方法细节，同时提供24小时心理援助热线。对于≤14岁用户，额外强调"请告诉身边的大人"。'
+  };
+  document.getElementById('crisisResponse').innerHTML = responses[level];
+}
+
+// Enter key to send
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('chatInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+});
+</script>
 
 </body>
 </html>
