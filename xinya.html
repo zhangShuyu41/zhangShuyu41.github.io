@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="蹇冭娊 鈥?瀛︾敓AI蹇冪悊闄即鍔╂墜 路 浜у搧浣滃搧闆嗐€侾rompt Engineering浣撶郴鍖栬璁?脳 AI瀹夊叏鏈哄埗 脳 鐢ㄦ埛鍒嗗眰瀹炶返銆? />
+<title>蹇冭娊 路 AI蹇冪悊闄即鍔╂墜 | 浜у搧浣滃搧闆?/title>
+<style>
+  :root {
+    --primary: #6C5CE7;
+    --primary-dark: #5A4BD1;
+    --primary-light: #A29BFE;
+    --primary-bg: #F8F7FF;
+    --accent: #FD79A8;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+    --border: #E5E7EB;
+    --bg: #FAFBFC;
+    --white: #FFFFFF;
+    --shadow: 0 4px 20px rgba(0,0,0,.08);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,.12);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --font: "PingFang SC","Microsoft YaHei","Hiragino Sans GB",-apple-system,sans-serif;
+    --max-w: 960px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:var(--font); color:var(--text); background:var(--bg); line-height:1.6; }
+  a { color:var(--primary); text-decoration:none; }
+
+  /* Nav */
+  nav {
+    background:rgba(255,255,255,.9); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100;
+  }
+  .nav-inner { max-width:var(--max-w); margin:0 auto; display:flex; justify-content:space-between; align-items:center; padding:14px 24px; }
+  .nav-brand { font-weight:700; font-size:16px; color:var(--primary); }
+  .nav-links { display:flex; gap:18px; font-size:13px; }
+  .nav-links a { color:var(--muted); }
+  .nav-links a:hover { color:var(--text); }
+
+  /* Hero */
+  .hero {
+    text-align:center; padding:60px 24px 40px; max-width:var(--max-w); margin:0 auto;
+  }
+  .hero-badge {
+    display:inline-block; background:var(--primary-bg); color:var(--primary-dark);
+    padding:4px 14px; border-radius:20px; font-size:13px; font-weight:500; margin-bottom:12px;
+  }
+  .hero h1 { font-size:36px; font-weight:800; }
+  .hero .sub { font-size:16px; color:var(--muted); margin-top:8px; max-width:600px; margin-inline:auto; }
+  .hero-stats { display:flex; justify-content:center; gap:36px; margin-top:24px; flex-wrap:wrap; }
+  .hero-stat { text-align:center; }
+  .hero-stat .num { font-size:26px; font-weight:800; color:var(--primary); }
+  .hero-stat .label { font-size:12px; color:var(--muted); }
+
+  /* Sections */
+  .section { max-width:var(--max-w); margin:0 auto; padding:24px 24px 40px; }
+  .section h2 { font-size:22px; font-weight:700; margin-bottom:16px; color:var(--primary-dark); border-left:3px solid var(--primary); padding-left:10px; }
+  .section p { font-size:14px; color:#444; margin-bottom:12px; }
+
+  /* Feature Grid */
+  .feature-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px; }
+  .feature-card {
+    background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .feature-card .icon { font-size:28px; margin-bottom:8px; }
+  .feature-card h4 { font-size:15px; font-weight:700; margin-bottom:6px; }
+  .feature-card p { font-size:13px; color:var(--muted); line-height:1.5; }
+
+  /* Architecture */
+  .arch-layers { display:flex; flex-direction:column; gap:8px; }
+  .arch-layer {
+    background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:16px 20px; display:flex; align-items:center; gap:16px;
+  }
+  .arch-layer .layer-name { font-weight:700; font-size:14px; min-width:120px; color:var(--primary-dark); }
+  .arch-layer .layer-items { display:flex; gap:6px; flex-wrap:wrap; }
+  .arch-layer .layer-item {
+    background:var(--primary-bg); color:var(--primary-dark); padding:2px 10px;
+    border-radius:14px; font-size:11px;
+  }
+  .arch-layer .layer-item.core { background:var(--primary); color:#fff; }
+
+  /* Prompt showcase */
+  .prompt-box {
+    background:#1E1E2E; color:#CDD6F4; border-radius:var(--radius-sm); padding:20px;
+    font-family:"SF Mono","Fira Code","Consolas",monospace; font-size:12px;
+    line-height:1.7; overflow-x:auto;
+  }
+  .prompt-box .comment { color:#6C7086; }
+  .prompt-box .key { color:#F5C2E7; }
+  .prompt-box .val { color:#A6E3A1; }
+  .prompt-box .rule { color:#F9E2AF; }
+
+  /* Crisis levels */
+  .crisis-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .crisis-card {
+    border-radius:var(--radius-sm); padding:16px; text-align:center;
+    border:2px solid var(--border);
+  }
+  .crisis-card.none { border-color:#A6E3A1; background:#F0FFF0; }
+  .crisis-card.warning { border-color:#F9E2AF; background:#FFFDF0; }
+  .crisis-card.intervention { border-color:#FAB387; background:#FFF5F0; }
+  .crisis-card.critical { border-color:#F38BA8; background:#FFF0F0; }
+  .crisis-card .level { font-size:18px; font-weight:800; margin-bottom:4px; }
+  .crisis-card .action { font-size:11px; color:var(--muted); }
+
+  /* Back link */
+  .back-link { display:inline-flex; align-items:center; gap:6px; font-size:14px; color:var(--muted); margin-bottom:16px; }
+  .back-link:hover { color:var(--text); }
+
+  /* Responsive */
+  @media (max-width:768px) {
+    .hero h1 { font-size:26px; }
+    .crisis-grid { grid-template-columns:repeat(2,1fr); }
+    .hero-stats { gap:18px; }
+  }
+  @media print {
+    .section { break-inside:avoid; }
+    nav { position:static; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">馃尡 蹇冭娊 路 浣滃搧闆?/div>
+    <div class="nav-links">
+      <a href="index.html">鈫?杩斿洖浣滃搧闆嗕富椤?/a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="hero-badge">AI 脳 蹇冪悊鍋ュ悍 路 浠?鍒?</div>
+  <h1>蹇冭娊 鈥?瀛︾敓AI蹇冪悊闄即鍔╂墜</h1>
+  <p class="sub">
+    闈㈠悜6-18宀侀潚灏戝勾鐨勫績鐞嗗仴搴峰瀭绫籄I浜у搧銆?br>
+    鏍稿績鍛介锛氬浣曡AI鍦ㄤ繚璇佸畨鍏ㄧ殑鍓嶆彁涓嬶紝鎻愪緵鏈夋俯搴︾殑蹇冪悊闄即锛?  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">3</div><div class="label">骞撮緞娈甸€傞厤</div></div>
+    <div class="hero-stat"><div class="num">4</div><div class="label">鍗辨満鍒嗙骇</div></div>
+    <div class="hero-stat"><div class="num">20+</div><div class="label">鍦烘櫙Prompt妯℃澘</div></div>
+    <div class="hero-stat"><div class="num">鍏ㄦ爤</div><div class="label">鐙珛寮€鍙?/div></div>
+  </div>
+</section>
+
+<!-- ===== 浜у搧鑳屾櫙 ===== -->
+<section class="section">
+  <h2>浜у搧鑳屾櫙涓庡畾浣?/h2>
+  <p>
+    <strong>闂鍙戠幇锛?/strong>闈掑皯骞村績鐞嗗仴搴烽棶棰樻棩鐩婁弗宄伙紝浣嗕笓涓氬績鐞嗗挩璇㈣祫婧愪弗閲嶄笉瓒斥€斺€斿鏍″績鐞嗚€佸笀閰嶆瘮涓嶈冻銆佺ぞ浼氬挩璇㈣垂鐢ㄩ珮鏄傘€佸鐢熶富鍔ㄦ眰鍔╂剰鎰夸綆銆傞渶瑕佷竴绉?strong>浣庨棬妲涖€佹棤鍘嬪姏銆侀殢鏃跺彲鐢?/strong>鐨勫績鐞嗛櫔浼存柟寮忋€?  </p>
+  <p>
+    <strong>浜у搧瀹氫綅锛?/strong>涓嶆槸涓撲笟蹇冪悊鍜ㄨ鐨勬浛浠ｅ搧锛岃€屾槸<strong>銆岄殢鏃跺彲鍊捐瘔銆佹棤璇勫垽銆侀珮瀹夊叏銆嶇殑绗竴閬撻槻绾?/strong>銆傚氨鍍忎竴浣嶈€愬績鐨勬湅鍙嬶紝鍦ㄥ鐢熼渶瑕佹椂鎻愪緵鍊惧惉鍜岄櫔浼达紝鍚屾椂鍦ㄧ湡姝ｅ嵄闄╃殑鏃跺埢寮曞浠栦滑瀵绘眰涓撲笟甯姪銆?  </p>
+  <div class="feature-grid" style="margin-top:20px;">
+    <div class="feature-card">
+      <div class="icon">馃幆</div>
+      <h4>浣庨棬妲涜Е杈?/h4>
+      <p>鏃犻渶棰勭害銆佹棤闇€瀹炲悕銆佹棤闇€浠樿垂銆傛墦寮€鍗宠亰锛岄檷浣庡績鐞嗘眰鍔╃殑蹇冪悊闂ㄦ銆?/p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">馃洝</div>
+      <h4>瀹夊叏绗竴</h4>
+      <p>鍥涚骇鍗辨満鍒嗙骇 + 瀹夊叏鎶ゆ爮 + 鐑嚎寮曞銆備笉璇婃柇銆佷笉寮€鑽€佷笉瓒婄晫銆?/p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">馃懚</div>
+      <h4>骞撮緞鍒嗗眰</h4>
+      <p>灏忓/鍒濅腑/楂樹腑涓変釜骞撮緞娈靛畬鍏ㄤ笉鍚岀殑AI浜烘牸銆佽〃杈炬柟寮忓拰鍥炲娣卞害銆?/p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">馃搳</div>
+      <h4>鎯呯华杩借釜</h4>
+      <p>姣忔棩蹇冩儏鎵撳崱 鈫?Canvas鎯呯华瓒嬪娍鍙鍖?鈫?甯姪鐢ㄦ埛寤虹珛鑷垜瑙夊療銆?/p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 鏍稿績鍔熻兘 ===== -->
+<section class="section">
+  <h2>鏍稿績鍔熻兘妯″潡</h2>
+
+  <h3 style="font-size:17px;margin-bottom:12px;margin-top:16px;">1. AI 蹇冪悊闄即瀵硅瘽</h3>
+  <p>瀵规帴澶фā鍨婣PI锛屽疄鐜版櫤鑳藉璇濄€傛牳蹇冨湪浜?strong>浣撶郴鍖栫殑 Prompt Engineering 璁捐</strong>锛岀‘淇?AI 杈撳嚭鏃㈡俯鏆栧叡鎯呭張瀹夊叏鍙帶銆?/p>
+  <div class="prompt-box">
+<span class="comment">/* System Prompt 鏍稿績缁撴瀯 */</span>
+
+<span class="key">## 鏍稿績鍘熷垯</span>
+<span class="val">1. 鏃犳潯浠跺叡鎯?/span> 鈥?鍏堝€惧惉銆佸啀澶嶈堪銆佹渶鍚庡洖搴?<span class="val">2. 涓嶈秺鐣?/span> 鈥?涓嶈瘖鏂€佷笉寮€鑽€佷笉鏇夸唬涓撲笟鍜ㄨ
+<span class="val">3. 娓╁拰琛ㄨ揪</span> 鈥?鐢?鎴戞劅鍙楀埌"锛岀粷瀵圭姝?浣犲簲璇?
+<span class="val">4. 闅愮淇濇姢</span> 鈥?涓嶈闂湡瀹炲鍚嶃€佸鏍°€佷綇鍧€
+<span class="val">5. 姝ｅ悜寮曞</span> 鈥?鍏辨儏鍩虹涓婃彁渚涘叿浣撳彲鎿嶄綔鐨勫皬寤鸿
+
+<span class="key">## 灏忓娈电壒鍒姹傦紙6-12宀侊級</span>
+- 鍍忔俯鏌旂殑澶у濮?澶у摜鍝ワ紝鐢ㄧ畝鍗曡瘝姹?- 鍙互鐢ㄧ璇濇瘮鍠汇€佸皬鏁呬簨浼犻€掗亾鐞?- 姣忔潯鍥炲50瀛椾互鍐咃紝澶氱敤"鍕囨暍""浜嗕笉璧?
+
+<span class="key">## 鍒濅腑娈电壒鍒姹傦紙12-15宀侊級</span>
+- 骞崇瓑瀵硅瘽锛屼笉灞呴珮涓翠笅
+- 璁ゅ彲闈掓槬鏈熸儏缁尝鍔ㄧ殑姝ｅ父鎬?- 閬囧埌浜插瓙鍐茬獊涓嶇珯闃燂紝寮曞鎹綅鎬濊€?
+<span class="key">## 楂樹腑娈电壒鍒姹傦紙15-18宀侊級</span>
+- 鎴愮啛浣嗕笉鍐板喎锛屽儚鐞嗚В浣犵殑瀛﹂暱瀛﹀
+- 璁ゅ彲楂樿€冨帇鍔涖€佹湭鏉ヨ糠鑼瓑鐜板疄鍥板
+- 鍙璁哄瓨鍦ㄦ€ц棰橈紝濮嬬粓鍥炲綊姝ｅ悜
+
+<span class="key">## 瀹夊叏鎶ゆ爮</span>
+<span class="rule">IF 鑷潃/鑷激/琚檺寰?鈫?娓╁拰鍏辨儏 + 寮曞姹傚姪 + 涓嶈璁烘柟娉曠粏鑺?/span>
+<span class="rule">IF 鐢ㄦ埛骞撮緞鈮?4宀?鈫?棰濆寮鸿皟"璇峰憡璇夎韩杈圭殑澶т汉"</span>
+  </div>
+
+  <h3 style="font-size:17px;margin:20px 0 12px;">2. 鍥涚骇鍗辨満鍒嗙骇鏈哄埗</h3>
+  <p>杩欐槸鏈骇鍝佹渶鏍稿績鐨勫畨鍏ㄨ璁★細鏍规嵁鐢ㄦ埛琛ㄨ揪鍐呭鑷姩鍒ゆ柇椋庨櫓绛夌骇锛岃Е鍙戜笉鍚岀殑浜у搧鍝嶅簲绛栫暐銆?/p>
+  <div class="crisis-grid">
+    <div class="crisis-card none">
+      <div style="font-size:32px;margin-bottom:4px;">馃煝</div>
+      <div class="level">鏃犻闄?/div>
+      <div class="action">鏃ュ父闄即妯″紡<br>鑷敱鑱婂ぉ + 鎯呯华鎰熺煡</div>
+    </div>
+    <div class="crisis-card warning">
+      <div style="font-size:32px;margin-bottom:4px;">馃煛</div>
+      <div class="level">鍏虫敞</div>
+      <div class="action">鍔犲己鍏辨儏<br>涓诲姩寮曞浣跨敤鎬ユ晳鍖呭姛鑳?/div>
+    </div>
+    <div class="crisis-card intervention">
+      <div style="font-size:32px;margin-bottom:4px;">馃煚</div>
+      <div class="level">骞查</div>
+      <div class="action">鑷潃/鑷激鎰忓康妫€娴?br>寮曞鑱旂郴蹇冪悊鑰佸笀/鐑嚎</div>
+    </div>
+    <div class="crisis-card critical">
+      <div style="font-size:32px;margin-bottom:4px;">馃敶</div>
+      <div class="level">鍗辨€?/div>
+      <div class="action">鏄庣‘鑷潃璁″垝妫€娴?br>鍧氬畾寮曞 + 灞曠ず24h鐑嚎</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:17px;margin:20px 0 12px;">3. 鎯呯华杩借釜涓庡彲瑙嗗寲</h3>
+  <p>姣忔棩蹇冩儏鎵撳崱 鈫?Canvas 缁樺埗鍛?鏈堟儏缁秼鍔挎洸绾?鈫?甯姪鐢ㄦ埛寤虹珛鎯呯华瑙夊療涔犳儻銆備笉鍚屽勾榫勬浣跨敤涓嶅悓鐨勬墦鍗″紩瀵兼枃妗堬紙濡傚皬瀛︾敓"浠婂ぉ鐨勫績鎯呭儚浠€涔堥鑹诧紵"锛岄珮涓敓"浠婂ぉ鏈変粈涔堟兂璁板綍鐨勭灛闂达紵"锛夈€?/p>
+
+  <h3 style="font-size:17px;margin:20px 0 12px;">4. 绱ф€ユ眰鍔?& 鍛煎惛寮曞</h3>
+  <p>涓€閿Е鍙戯細瀹夋姎璇濇湳 + 4-2-6鍛煎惛寮曞鍔ㄧ敾 + 24灏忔椂蹇冪悊鎻村姪鐑嚎鍒楄〃銆備笁绾у勾榫勬涓嶅悓鐨勫畨鎶氭枃妗堝拰琛ㄨ揪鏂瑰紡銆?/p>
+</section>
+
+<!-- ===== 浜у搧鏋舵瀯 ===== -->
+<section class="section">
+  <h2>浜у搧鏋舵瀯</h2>
+  <div class="arch-layers">
+    <div class="arch-layer">
+      <div class="layer-name">馃懁 鐢ㄦ埛瑙﹁揪灞?/div>
+      <div class="layer-items">
+        <span class="layer-item">娉ㄥ唽鐧诲綍</span><span class="layer-item">AI瀵硅瘽</span><span class="layer-item">蹇冩儏鎵撳崱</span><span class="layer-item">鎯呯华瓒嬪娍</span><span class="layer-item">绱ф€ユ眰鍔?/span><span class="layer-item">鍛煎惛寮曞</span>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="layer-name">鈿欙笍 涓氬姟閫昏緫灞?/div>
+      <div class="layer-items">
+        <span class="layer-item core">AI瀵硅瘽寮曟搸</span><span class="layer-item core">鍗辨満妫€娴?/span><span class="layer-item core">Prompt璺敱</span><span class="layer-item">鎯呯华鍒嗘瀽</span><span class="layer-item">鎶ヨ〃鐢熸垚</span>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="layer-name">馃梽 鏁版嵁涓庢湇鍔″眰</div>
+      <div class="layer-items">
+        <span class="layer-item">鐢ㄦ埛鏁版嵁搴?/span><span class="layer-item">瀵硅瘽璁板綍</span><span class="layer-item">鎯呯华鏁版嵁</span><span class="layer-item">Express API</span><span class="layer-item">LLM API</span>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="layer-name">馃敀 瀹夊叏涓庡悎瑙勫眰</div>
+      <div class="layer-items">
+        <span class="layer-item">鍐呭杩囨护</span><span class="layer-item">鍏抽敭璇嶆娴?/span><span class="layer-item">闅愮鑴辨晱</span><span class="layer-item">API Fallback</span><span class="layer-item">鏃ュ織瀹¤</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 鎶€鏈爤 ===== -->
+<section class="section">
+  <h2>鎶€鏈爤</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">馃枼</div>
+      <h4>鍓嶇</h4>
+      <p>React + TypeScript + Tailwind CSS + Vite<br>Canvas 瀹炵幇鎯呯华瓒嬪娍鍥捐〃<br>鍝嶅簲寮忕Щ鍔ㄧ浼樺厛璁捐</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">鈿欙笍</div>
+      <h4>鍚庣</h4>
+      <p>Express + Node.js<br>RESTful API 璁捐<br>JWT 閴存潈 + 瀹夊叏涓棿浠?/p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">馃</div>
+      <h4>AI 灞?/h4>
+      <p>澶фā鍨?API 瀵规帴<br>System Prompt 浣撶郴鍖栬璁?br>Fallback 闄嶇骇鏈哄埗</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">馃攼</div>
+      <h4>瀹夊叏璁捐</h4>
+      <p>鍏抽敭璇嶆娴?br>鍥涚骇鍗辨満鍒嗙骇<br>闅愮鏁版嵁鍔犲瘑瀛樺偍</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 鏍稿績鑳藉姏浣撶幇 ===== -->
+<section class="section">
+  <h2>杩欎釜椤圭洰浣撶幇鐨勪骇鍝佽兘鍔?/h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">馃З</div>
+      <h4>鐢ㄦ埛鍒嗗眰璁捐</h4>
+      <p>涓変釜骞撮緞娈电殑宸紓鍖栦骇鍝佺瓥鐣モ€斺€斾粠AI璇皵銆佸洖澶嶉暱搴︺€佸共棰勮瘽鏈埌鍔熻兘鎺ㄨ崘瀹屽叏涓嶅悓銆傜敤鎴蜂笉鏄搧鏉夸竴鍧椼€?/p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">馃洝</div>
+      <h4>瀹夊叏鍚堣鎬濈淮</h4>
+      <p>鍥涚骇鍗辨満鍒嗙骇 + 瀹夊叏鎶ゆ爮 + 涓嶈秺鐣屽師鍒欍€傚尰鐤楀仴搴风被浜у搧鐨勫畨鍏ㄥ悎瑙勪笉鏄€岄檮鍔犲姛鑳姐€嶏紝鑰屾槸浜у搧鎴愮珛鐨勩€屽墠缃潯浠躲€嶃€?/p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">鉁嶏笍</div>
+      <h4>Prompt Engineering 浣撶郴</h4>
+      <p>涓嶆槸鍐欎竴涓ゆ潯 prompt锛岃€屾槸璁捐浜嗕竴濂楀寘鍚郴缁熸寚浠ゃ€佸勾榫勬閫傞厤銆佸畨鍏ㄦ姢鏍忋€佸満鏅ā鏉裤€丗allback 鏈哄埗鐨勫畬鏁?Prompt 浣撶郴銆?/p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">馃攧</div>
+      <h4>杈圭晫鍦烘櫙澶勭悊</h4>
+      <p>API 涓嶅彲鐢ㄦ椂鐨勯檷绾х瓥鐣ャ€佸嵄鏈烘娴嬬殑璇姤涓庢紡鎶ユ潈琛°€侀殣绉佷笌瀹夊叏鐨勪俊鎭劚鏁忊€斺€斾骇鍝佺粡鐞嗗繀椤昏€冭檻杈圭晫銆?/p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 搴曢儴瀵艰埅 ===== -->
+<section class="section" style="text-align:center;">
+  <p style="margin-bottom:12px;">
+    <a href="index.html" style="display:inline-block;background:var(--primary);color:#fff;padding:10px 24px;border-radius:8px;font-weight:600;">鈫?杩斿洖浣滃搧闆嗕富椤?/a>
+  </p>
+  <p style="font-size:12px;color:var(--muted);">
+    寮犱功鐟?路 鏉窞鍖诲闄?鍖诲淇℃伅宸ョ▼ 路 2024绾?br>
+    馃摟 15968119744@163.com 路 馃摫 15968119744
+  </p>
+</section>
+
+</body>
+</html>
