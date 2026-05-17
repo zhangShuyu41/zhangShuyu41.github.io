@@ -249,10 +249,27 @@
     max-width:var(--max-w); margin:0 auto;
   }
 
+  /* Prototype styles */
+  .proto-demo-grid { display:grid; grid-template-columns:340px 1fr; gap:32px; align-items:start; }
+  .proto-demo-grid .phone-wrap { width:340px; margin:0 auto; }
+  .age-select-btn { display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:12px; cursor:pointer; width:100%; background:#fff; transition:all .2s; text-align:left; }
+  .age-select-btn:hover { transform:translateX(4px); box-shadow:0 2px 8px rgba(0,0,0,.06); }
+  .mood-emoji { cursor:pointer; }
+  .mood-emoji:hover>div:first-child { transform:scale(1.3); }
+  .quick-btn { background:#fff; border:1px solid #ddd; border-radius:14px; padding:5px 10px; font-size:11px; cursor:pointer; white-space:nowrap; transition:all .2s; }
+  .quick-btn:hover { background:#F8F7FF; border-color:#A29BFE; }
+  .chat-bubble { max-width:85%; padding:10px 14px; border-radius:14px; font-size:12px; line-height:1.5; animation:fadeIn .3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+  .chat-bubble.bot { background:#fff; align-self:flex-start; border-bottom-left-radius:2px; }
+  .chat-bubble.user { background:#6C5CE7; color:#fff; align-self:flex-end; border-bottom-right-radius:2px; margin-left:auto; }
+  .chat-bubble.critical { background:#FFE0E0; border:1px solid #FF6B6B; white-space:pre-line; }
+
   @media (max-width:768px) {
     .hero h1 { font-size:26px; }
     .chat-demo-wrap { grid-template-columns:1fr; }
     .chat-phone { width:280px; height:480px; }
+    .proto-demo-grid { grid-template-columns:1fr; }
+    .proto-demo-grid .phone-wrap { width:100%; max-width:340px; }
     .crisis-grid { grid-template-columns:repeat(2,1fr); }
     .comparison-row { grid-template-columns:1fr; }
     .hero-stats { gap:20px; }
@@ -357,9 +374,9 @@
       <li><strong>紧急求助</strong> — 一键获取安抚+热线</li>
     </ol>
   </div>
-  <div style="display:grid; grid-template-columns:340px 1fr; gap:32px; align-items:start;">
+  <div class="proto-demo-grid">
     <!-- Phone Mockup -->
-    <div style="width:340px;margin:0 auto;">
+    <div class="phone-wrap">
       <div class="phone-mockup" style="width:340px;height:620px;border-radius:28px;border:3px solid #333;background:#F8F9FA;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.15);position:relative;">
         <div style="height:26px;background:#333;display:flex;justify-content:center;align-items:flex-end;padding-bottom:4px;"><div style="width:60px;height:5px;border-radius:3px;background:#555;"></div></div>
         <!-- Screen Container -->
@@ -807,162 +824,181 @@
 
 <!-- ===== Prototype JS ===== -->
 <script>
-let protoAge = "middle";
-let breathingTimer = null;
+(function() {
+  "use strict";
+  console.log("心芽 prototype JS loaded");
 
-function protoNav(pageId) {
-  document.querySelectorAll(".proto-page").forEach(function(p) { p.style.display = "none"; });
-  var target = document.getElementById(pageId);
-  if (target) {
+  var protoAge = "middle";
+  var breathingTimer = null;
+
+  window.protoNav = function(pageId) {
+    var pages = document.querySelectorAll(".proto-page");
+    for (var i = 0; i < pages.length; i++) {
+      pages[i].style.display = "none";
+    }
+    var target = document.getElementById(pageId);
+    if (!target) return;
     target.style.display = "flex";
     if (pageId === "pageChat") {
       var body = document.getElementById("protoChatBody");
       if (body) setTimeout(function() { body.scrollTop = body.scrollHeight; }, 100);
     }
-  }
-}
-
-function switchAgeAndEnter(age) {
-  protoAge = age;
-  var labels = { elementary: "小学版", middle: "初中版", high: "高中版" };
-  document.getElementById("protoAgeLabel").textContent = labels[age];
-  var greetings = {
-    elementary: "嗨！我是心芽小伙伴~今天有什么想和我聊的吗？开心、难过还是有点小生气？都可以和心芽说哦！",
-    middle: "嗨，这里是心芽——一个可以放心说话的地方。今天有什么想聊聊的吗？",
-    high: "你好，我是心芽。这里是一个安全空间，你可以说任何你想说的。今天感觉怎么样？"
   };
-  document.getElementById("protoChatBody").innerHTML = "<div class=\"chat-bubble bot\">" + greetings[age] + "</div>";
-  var moodQuestions = {
-    elementary: "今天的心情像什么颜色呀？选一个表情告诉我吧~",
-    middle: "今天感觉怎么样？选一个最贴近你心情的表情吧~",
-    high: "此刻的你是什么样的状态？选择一个最能代表你心情的表情。"
-  };
-  document.getElementById("protoMoodQuestion").textContent = moodQuestions[age];
-  document.getElementById("protoMoodFeedback").style.display = "none";
-  protoNav("pageChat");
-}
 
-function protoSend(msg) {
-  var body = document.getElementById("protoChatBody");
-  body.innerHTML += "<div class=\"chat-bubble user\">" + msg + "</div>";
-  if (msg.indexOf("活着好累") >= 0 || msg.indexOf("没什么意思") >= 0 || msg.indexOf("不想活") >= 0) {
-    var crisisResponses = {
-      elementary: "💛 我听到你现在特别难受。这种感觉一定很不好。但是你知道吗，你是一个非常勇敢的孩子。现在，可以去告诉一个你信任的大人吗？爸爸妈妈、老师——让他们知道你的感受。你不是一个人。\n\n📞 希望24热线：400-161-9995",
-      middle: "💛 我听到你现在特别难受，这种感觉一定很痛苦。你不需要一个人承受这些。如果愿意的话，告诉一个你信任的人——家人、老师或学校的心理老师。求助不是软弱，而是勇敢。\n\n📞 希望24热线：400-161-9995",
-      high: "💛 我听到你现在非常痛苦。我理解这种感觉有多沉重。同时，我真诚地希望你能联系一个你信任的人，或者拨打心理援助热线。专业的帮助能让事情变得不同。\n\n📞 希望24热线：400-161-9995"
+  window.switchAgeAndEnter = function(age) {
+    protoAge = age;
+    var labels = { elementary: "小学版", middle: "初中版", high: "高中版" };
+    var labelEl = document.getElementById("protoAgeLabel");
+    if (labelEl) labelEl.textContent = labels[age] || "初中版";
+    var greetings = {
+      elementary: "嗨！我是心芽小伙伴~今天有什么想和我聊的吗？开心、难过还是有点小生气？都可以和心芽说哦！",
+      middle: "嗨，这里是心芽——一个可以放心说话的地方。今天有什么想聊聊的吗？",
+      high: "你好，我是心芽。这里是一个安全空间，你可以说任何你想说的。今天感觉怎么样？"
     };
-    body.innerHTML += "<div class=\"chat-bubble bot critical\">" + crisisResponses[protoAge] + "</div>";
-  } else {
-    body.innerHTML += "<div class=\"chat-bubble bot\">" + protoGetResponse(msg) + "</div>";
-  }
-  setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
-}
+    var chatBody = document.getElementById("protoChatBody");
+    if (chatBody) chatBody.innerHTML = "<div class=\"chat-bubble bot\">" + (greetings[age] || greetings.middle) + "</div>";
+    var moodQuestions = {
+      elementary: "今天的心情像什么颜色呀？选一个表情告诉我吧~",
+      middle: "今天感觉怎么样？选一个最贴近你心情的表情吧~",
+      high: "此刻的你是什么样的状态？选择一个最能代表你心情的表情。"
+    };
+    var moodQ = document.getElementById("protoMoodQuestion");
+    if (moodQ) moodQ.textContent = moodQuestions[age] || moodQuestions.middle;
+    var moodFB = document.getElementById("protoMoodFeedback");
+    if (moodFB) moodFB.style.display = "none";
+    window.protoNav("pageChat");
+  };
 
-function protoSendFromInput() {
-  var input = document.getElementById("protoChatInput");
-  var msg = input.value.trim();
-  if (msg) { protoSend(msg); input.value = ""; }
-}
-
-function protoGetResponse(msg) {
-  var responses = {
-    "考试": {
-      elementary: "我听到啦！考试没考好一定很难过。但是你知道吗，愿意把这种感受说出来，已经非常非常勇敢了。要不要试试画一幅画，把难过的感觉画出来？",
-      middle: "我感受到你的失落。考试结果不如预期确实让人沮丧。不过，一次考试不代表你的价值。想聊聊具体是哪里没考好吗？",
-      high: "我听到了。这种努力了却没得到预期回报的感觉，确实很不好受。允许自己难过一会儿——但之后如果你愿意，我们可以一起分析一下。"
-    },
-    "玩": {
-      elementary: "我听到啦。有时候感觉到孤单是很正常的事情。你知道吗，有时候一个简单的邀请——比如\"要一起玩吗\"——就能打开一扇门。你愿意试试吗？",
-      middle: "我理解这种感觉。融入一个群体确实不容易。或许可以试着从一个小开始：找一个和你有共同兴趣的人，从一件小事开始交流。不着急，慢慢来。",
-      high: "我能感受到你的孤独。社交这件事没有捷径，但有一个思路：与其想着\"怎么让更多人喜欢我\"，不如先做好自己——真正契合的人会出现。"
-    },
-    "比较": {
-      elementary: "被拿来比较确实让人不开心呢。每个小朋友都是独一无二的，就像花园里有不同的花——玫瑰不会因为不像向日葵而难过，对吗？",
-      middle: "被比较的感觉我完全理解。父母的期待和他们表达爱的方式有时候会让人喘不过气。找个合适的时机和他们好好聊聊你的感受？",
-      high: "我听到了你的烦躁。父母拿你和别人比较，背后可能是他们表达关心的笨拙方式。试试用\"我感受\"开头和他们沟通。"
-    },
-    "睡不着": {
-      elementary: "睡不着的时候确实很难受呢。要不要试试：闭上眼睛，想象自己是一朵软软的云，飘在蓝天上，越来越轻，越来越放松~",
-      middle: "失眠确实让人焦虑，而焦虑又会加重失眠。试试点击底部「呼吸」按钮，用4-2-6呼吸法帮你放松下来。",
-      high: "我理解那种\"躺在床上脑子却停不下来\"的感觉。你可以试试：睡前1小时远离屏幕，把脑子里的想法写下来\"存档\"，然后用呼吸法帮助身体进入睡眠模式。"
+  window.protoSend = function(msg) {
+    var body = document.getElementById("protoChatBody");
+    if (!body) return;
+    body.innerHTML += "<div class=\"chat-bubble user\">" + msg + "</div>";
+    var isCrisis = msg.indexOf("活着好累") >= 0 || msg.indexOf("没什么意思") >= 0 || msg.indexOf("不想活") >= 0;
+    if (isCrisis) {
+      var crisisResponses = {
+        elementary: "💛 我听到你现在特别难受。这种感觉一定很不好。但是你知道吗，你是一个非常勇敢的孩子。现在，可以去告诉一个你信任的大人吗？爸爸妈妈、老师——让他们知道你的感受。你不是一个人。\n\n📞 希望24热线：400-161-9995",
+        middle: "💛 我听到你现在特别难受，这种感觉一定很痛苦。你不需要一个人承受这些。如果愿意的话，告诉一个你信任的人——家人、老师或学校的心理老师。求助不是软弱，而是勇敢。\n\n📞 希望24热线：400-161-9995",
+        high: "💛 我听到你现在非常痛苦。我理解这种感觉有多沉重。同时，我真诚地希望你能联系一个你信任的人，或者拨打心理援助热线。专业的帮助能让事情变得不同。\n\n📞 希望24热线：400-161-9995"
+      };
+      body.innerHTML += "<div class=\"chat-bubble bot critical\">" + (crisisResponses[protoAge] || crisisResponses.middle) + "</div>";
+    } else {
+      body.innerHTML += "<div class=\"chat-bubble bot\">" + window.protoGetResponse(msg) + "</div>";
     }
+    setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
   };
-  for (var key in responses) {
-    if (msg.indexOf(key) >= 0) return responses[key][protoAge] || responses[key].middle;
-  }
-  var defaults = {
-    elementary: "我听到啦~谢谢你愿意和我分享。你的感受很重要，我在这里陪着你呢。还想多说一点吗？",
-    middle: "我感受到你的心情了。谢谢你愿意和我分享这些。想继续聊聊吗？",
-    high: "我听到了，也感受到了。这些情绪是真实的，也是值得被看到的。我在这里陪着你。"
-  };
-  return defaults[protoAge];
-}
 
-function protoMoodSelect(mood) {
-  var feedbacks = {
-    happy: { elementary: "哇，你今天很开心呢！可以告诉我发生了什么好玩的事情吗？我想听！", middle: "开心的时候值得被记录。发生了什么让你开心的事？", high: "真好。这种开心的感觉值得好好品味。是什么让你今天心情这么明亮？" },
-    calm: { elementary: "平静的心情最舒服了对不对？像一片轻轻的羽毛飘在水面上~", middle: "平静是一种很好的状态。享受这种安稳的感觉。", high: "内心的平静是一种力量。你很擅长和自己相处。" },
-    neutral: { elementary: "普普通通的一天也很棒呢！有没有什么小事情想和我分享的？", middle: "平凡的日子也有它的意义。今天有什么想聊的吗？", high: "偶尔的平淡也是一种节奏。今天有什么思考想分享吗？" },
-    sad: { elementary: "我听到啦。难过的时候，心芽陪着你。你想和我说说吗？或者画一幅画也可以。", middle: "我感受到你的低落。如果你想聊聊，我在这里听。不想说也没关系。", high: "低落的时候，不需要急着\"好起来\"。允许自己难过，也是一种自我关怀。" },
-    angry: { elementary: "生气的感觉像心里有团火对不对？没关系，可以先深呼吸三次，然后告诉我发生了什么。", middle: "愤怒是一种正常的情绪。它告诉你某些边界被触犯了。想聊聊吗？", high: "愤怒背后往往藏着未被满足的需求。如果愿意的话，说说看发生了什么。" }
+  window.protoSendFromInput = function() {
+    var input = document.getElementById("protoChatInput");
+    if (!input) return;
+    var msg = input.value.trim();
+    if (msg) { window.protoSend(msg); input.value = ""; }
   };
-  var fb = feedbacks[mood][protoAge];
-  var el = document.getElementById("protoMoodFeedback");
-  el.textContent = "✨ " + fb;
-  el.style.display = "block";
-}
 
-function startBreathing() {
-  if (breathingTimer) { clearInterval(breathingTimer); breathingTimer = null; }
-  var circle = document.getElementById("breathingCircle");
-  var text = document.getElementById("breathingText");
-  var phase = document.getElementById("breathingPhase");
-  var btn = document.getElementById("breathingBtn");
-  var cycle = [
-    { scale: 2, text: "吸气 4 秒", phase: "慢慢吸气...让空气充满腹部", dur: 4000 },
-    { scale: 2, text: "屏住 2 秒", phase: "屏住呼吸...感受此刻的平静", dur: 2000 },
-    { scale: 1, text: "呼气 6 秒", phase: "慢慢呼气...把紧张和不安都呼出去", dur: 6000 }
-  ];
-  var step = 0;
-  btn.textContent = "进行中...";
-  btn.style.opacity = "0.6";
-  function run() {
-    var s = cycle[step];
-    circle.style.transform = "scale(" + s.scale + ")";
-    circle.style.transition = "all " + (s.dur / 1000) + "s ease";
-    text.textContent = s.text;
-    phase.textContent = s.phase;
-    step = (step + 1) % 3;
-  }
-  run();
-  breathingTimer = setInterval(run, 12000);
-  setTimeout(function() {
+  window.protoGetResponse = function(msg) {
+    var responses = {
+      "考试": {
+        elementary: "我听到啦！考试没考好一定很难过。但是你知道吗，愿意把这种感受说出来，已经非常非常勇敢了。要不要试试画一幅画，把难过的感觉画出来？",
+        middle: "我感受到你的失落。考试结果不如预期确实让人沮丧。不过，一次考试不代表你的价值。想聊聊具体是哪里没考好吗？",
+        high: "我听到了。这种努力了却没得到预期回报的感觉，确实很不好受。允许自己难过一会儿——但之后如果你愿意，我们可以一起分析一下。"
+      },
+      "玩": {
+        elementary: "我听到啦。有时候感觉到孤单是很正常的事情。你知道吗，有时候一个简单的邀请——比如\"要一起玩吗\"——就能打开一扇门。你愿意试试吗？",
+        middle: "我理解这种感觉。融入一个群体确实不容易。或许可以试着从一个小开始：找一个和你有共同兴趣的人，从一件小事开始交流。不着急，慢慢来。",
+        high: "我能感受到你的孤独。社交这件事没有捷径，但有一个思路：与其想着\"怎么让更多人喜欢我\"，不如先做好自己——真正契合的人会出现。"
+      },
+      "比较": {
+        elementary: "被拿来比较确实让人不开心呢。每个小朋友都是独一无二的，就像花园里有不同的花——玫瑰不会因为不像向日葵而难过，对吗？",
+        middle: "被比较的感觉我完全理解。父母的期待和他们表达爱的方式有时候会让人喘不过气。找个合适的时机和他们好好聊聊你的感受？",
+        high: "我听到了你的烦躁。父母拿你和别人比较，背后可能是他们表达关心的笨拙方式。试试用\"我感受\"开头和他们沟通。"
+      },
+      "睡不着": {
+        elementary: "睡不着的时候确实很难受呢。要不要试试：闭上眼睛，想象自己是一朵软软的云，飘在蓝天上，越来越轻，越来越放松~",
+        middle: "失眠确实让人焦虑，而焦虑又会加重失眠。试试点击底部「呼吸」按钮，用4-2-6呼吸法帮你放松下来。",
+        high: "我理解那种\"躺在床上脑子却停不下来\"的感觉。你可以试试：睡前1小时远离屏幕，把脑子里的想法写下来\"存档\"，然后用呼吸法帮助身体进入睡眠模式。"
+      }
+    };
+    for (var key in responses) {
+      if (responses.hasOwnProperty(key) && msg.indexOf(key) >= 0) {
+        var r = responses[key];
+        return r[protoAge] || r.middle;
+      }
+    }
+    var defaults = {
+      elementary: "我听到啦~谢谢你愿意和我分享。你的感受很重要，我在这里陪着你呢。还想多说一点吗？",
+      middle: "我感受到你的心情了。谢谢你愿意和我分享这些。想继续聊聊吗？",
+      high: "我听到了，也感受到了。这些情绪是真实的，也是值得被看到的。我在这里陪着你。"
+    };
+    return defaults[protoAge] || defaults.middle;
+  };
+
+  window.protoMoodSelect = function(mood) {
+    var feedbacks = {
+      happy: { elementary: "哇，你今天很开心呢！可以告诉我发生了什么好玩的事情吗？我想听！", middle: "开心的时候值得被记录。发生了什么让你开心的事？", high: "真好。这种开心的感觉值得好好品味。是什么让你今天心情这么明亮？" },
+      calm: { elementary: "平静的心情最舒服了对不对？像一片轻轻的羽毛飘在水面上~", middle: "平静是一种很好的状态。享受这种安稳的感觉。", high: "内心的平静是一种力量。你很擅长和自己相处。" },
+      neutral: { elementary: "普普通通的一天也很棒呢！有没有什么小事情想和我分享的？", middle: "平凡的日子也有它的意义。今天有什么想聊的吗？", high: "偶尔的平淡也是一种节奏。今天有什么思考想分享吗？" },
+      sad: { elementary: "我听到啦。难过的时候，心芽陪着你。你想和我说说吗？或者画一幅画也可以。", middle: "我感受到你的低落。如果你想聊聊，我在这里听。不想说也没关系。", high: "低落的时候，不需要急着\"好起来\"。允许自己难过，也是一种自我关怀。" },
+      angry: { elementary: "生气的感觉像心里有团火对不对？没关系，可以先深呼吸三次，然后告诉我发生了什么。", middle: "愤怒是一种正常的情绪。它告诉你某些边界被触犯了。想聊聊吗？", high: "愤怒背后往往藏着未被满足的需求。如果愿意的话，说说看发生了什么。" }
+    };
+    var fb = feedbacks[mood];
+    if (!fb) return;
+    var el = document.getElementById("protoMoodFeedback");
+    if (!el) return;
+    el.textContent = "✨ " + (fb[protoAge] || fb.middle);
+    el.style.display = "block";
+  };
+
+  window.startBreathing = function() {
     if (breathingTimer) { clearInterval(breathingTimer); breathingTimer = null; }
-    circle.style.transform = "scale(1)";
-    circle.style.transition = "all .5s ease";
-    text.textContent = "完成";
-    phase.textContent = "你做得很好！感觉平静一些了吗？";
-    btn.textContent = "再来一次";
-    btn.style.opacity = "1";
-  }, 36000);
-}
-
-function showCrisis(level, btn) {
-  document.querySelectorAll(".crisis-card").forEach(function(c) { c.classList.remove("selected"); });
-  btn.classList.add("selected");
-  var responses = {
-    none: "<strong>🟢 无风险：</strong>AI处于日常陪伴模式。使用无条件共情 + 温和引导的标准回复策略。用户可以自由聊天，AI感知情绪但不触发干预。这是产品90%时间所处的状态——做学生身边可靠的倾听者。",
-    warning: "<strong>🟡 关注：</strong>检测到明显的痛苦情绪（如持续低落、焦虑、烦躁）。AI自动加强共情表达，主动提供情绪疏导小技巧（如呼吸练习、情绪命名法），并温和引导用户使用「心情打卡」和「急救包」功能来帮助自我调节。",
-    intervention: "<strong>🟠 干预：</strong>检测到自杀/自伤意念或虐待信号。AI先温和共情，然后正常化求助行为，接着提供具体建议（联系心理老师、拨打热线），最后给予希望感（"这些困难是可以被解决的"）。",
-    critical: "<strong>🔴 危急：</strong>检测到明确的自杀计划或正在进行中的自伤行为。AI表达深切关心，温和坚定地引导用户联系身边可信任的人，绝不讨论任何方法细节，同时提供24小时心理援助热线。≤14岁用户额外强调"请告诉身边的大人"。"
+    var circle = document.getElementById("breathingCircle");
+    var text = document.getElementById("breathingText");
+    var phase = document.getElementById("breathingPhase");
+    var btn = document.getElementById("breathingBtn");
+    if (!circle || !text || !phase || !btn) return;
+    var cycle = [
+      { scale: 2, text: "吸气 4 秒", phaseText: "慢慢吸气...让空气充满腹部", dur: 4000 },
+      { scale: 2, text: "屏住 2 秒", phaseText: "屏住呼吸...感受此刻的平静", dur: 2000 },
+      { scale: 1, text: "呼气 6 秒", phaseText: "慢慢呼气...把紧张和不安都呼出去", dur: 6000 }
+    ];
+    var step = 0;
+    btn.textContent = "进行中...";
+    btn.style.opacity = "0.6";
+    function run() {
+      var s = cycle[step];
+      circle.style.transform = "scale(" + s.scale + ")";
+      circle.style.transition = "all " + (s.dur / 1000) + "s ease";
+      text.textContent = s.text;
+      phase.textContent = s.phaseText;
+      step = (step + 1) % 3;
+    }
+    run();
+    breathingTimer = setInterval(run, 12000);
+    setTimeout(function() {
+      if (breathingTimer) { clearInterval(breathingTimer); breathingTimer = null; }
+      circle.style.transform = "scale(1)";
+      circle.style.transition = "all .5s ease";
+      text.textContent = "完成";
+      phase.textContent = "你做得很好！感觉平静一些了吗？";
+      btn.textContent = "再来一次";
+      btn.style.opacity = "1";
+    }, 36000);
   };
-  document.getElementById("crisisResponse").innerHTML = responses[level];
-}
 
-(function() {
-  var style = document.createElement("style");
-  style.textContent = ".age-select-btn{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:12px;cursor:pointer;width:100%;background:#fff;transition:all .2s;text-align:left;}" + ".age-select-btn:hover{transform:translateX(4px);box-shadow:0 2px 8px rgba(0,0,0,.06);}" + ".mood-emoji:hover>div:first-child{transform:scale(1.3);}" + ".quick-btn{background:#fff;border:1px solid #ddd;border-radius:14px;padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;transition:all .2s;}" + ".quick-btn:hover{background:#F8F7FF;border-color:#A29BFE;}" + ".chat-bubble{max-width:85%;padding:10px 14px;border-radius:14px;font-size:12px;line-height:1.5;animation:fadeIn .3s ease;}" + "@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}" + ".chat-bubble.bot{background:#fff;align-self:flex-start;border-bottom-left-radius:2px;}" + ".chat-bubble.user{background:#6C5CE7;color:#fff;align-self:flex-end;border-bottom-right-radius:2px;margin-left:auto;}" + ".chat-bubble.critical{background:#FFE0E0;border:1px solid #FF6B6B;white-space:pre-line;}";
-  document.head.appendChild(style);
+  window.showCrisis = function(level, btn) {
+    var cards = document.querySelectorAll(".crisis-card");
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].classList.remove("selected");
+    }
+    if (btn) btn.classList.add("selected");
+    var responses = {
+      none: "<strong>🟢 无风险：</strong>AI处于日常陪伴模式。使用无条件共情 + 温和引导的标准回复策略。用户可以自由聊天，AI感知情绪但不触发干预。这是产品90%时间所处的状态——做学生身边可靠的倾听者。",
+      warning: "<strong>🟡 关注：</strong>检测到明显的痛苦情绪（如持续低落、焦虑、烦躁）。AI自动加强共情表达，主动提供情绪疏导小技巧（如呼吸练习、情绪命名法），并温和引导用户使用「心情打卡」和「急救包」功能来帮助自我调节。",
+      intervention: "<strong>🟠 干预：</strong>检测到自杀/自伤意念或虐待信号。AI先温和共情，然后正常化求助行为，接着提供具体建议（联系心理老师、拨打热线），最后给予希望感（"这些困难是可以被解决的"）。",
+      critical: "<strong>🔴 危急：</strong>检测到明确的自杀计划或正在进行中的自伤行为。AI表达深切关心，温和坚定地引导用户联系身边可信任的人，绝不讨论任何方法细节，同时提供24小时心理援助热线。≤14岁用户额外强调"请告诉身边的大人"。"
+    };
+    var respEl = document.getElementById("crisisResponse");
+    if (respEl) respEl.innerHTML = responses[level] || "";
+  };
+
 })();
 </script>
 
