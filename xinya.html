@@ -364,7 +364,7 @@
 <section id="demo" class="section">
   <div class="section-heading">
     <div class="eyebrow">Interactive Prototype</div>
-    <h2>可交互产品原型</h2>
+    <h2>可交互产品原型 <span style="font-size:10px;background:#22C55E;color:#fff;padding:2px 6px;border-radius:8px;vertical-align:middle;">v3</span></h2>
     <p>点击下方手机模拟器体验完整产品流程。切换年龄段后，AI的回复风格、情绪引导、危机话术都会改变。</p>
     <ol style="font-size:14px;color:var(--muted);margin-top:8px;padding-left:20px;display:flex;flex-wrap:wrap;gap:4px 24px;">
       <li><strong>欢迎页 → 年龄选择</strong> — 选择你的学段</li>
@@ -541,8 +541,19 @@
 
 <!-- ===== Prototype JS ===== -->
 <script>
+// v3 - 2024-05-17
 var protoAge = "middle";
 var breathingTimer = null;
+
+// Signal that JS loaded successfully
+(function() {
+  var badge = document.createElement("div");
+  badge.id = "jsLoadedBadge";
+  badge.style.cssText = "position:fixed;bottom:12px;right:12px;background:#22C55E;color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;z-index:9999;pointer-events:none;";
+  badge.textContent = "JS Ready v3";
+  document.body.appendChild(badge);
+  setTimeout(function() { badge.style.opacity = "0"; badge.style.transition = "opacity 1s"; }, 3000);
+})();
 
 function protoNav(pageId) {
   var pages = document.querySelectorAll(".proto-page");
