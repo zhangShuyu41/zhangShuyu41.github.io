@@ -163,17 +163,17 @@
         var verdictIcon = document.getElementById('verdict-icon');
         var verdictText = document.getElementById('verdict-text');
         if (totalScore >= 75) {
-            verdictIcon.textContent = '馃幆';
-            verdictText.textContent = '鍖归厤璐ㄩ噺锛氫紭绉€鎺ㄨ崘';
+            verdictIcon.textContent = '🎯';
+            verdictText.textContent = '匹配质量：优秀推荐';
         } else if (totalScore >= 55) {
-            verdictIcon.textContent = '馃憤';
-            verdictText.textContent = '鍖归厤璐ㄩ噺锛氳壇濂芥帹鑽?;
+            verdictIcon.textContent = '👍';
+            verdictText.textContent = '匹配质量：良好推荐';
         } else if (totalScore >= 35) {
-            verdictIcon.textContent = '馃';
-            verdictText.textContent = '鍖归厤璐ㄩ噺锛氫竴鑸紝鍙皾璇?;
+            verdictIcon.textContent = '🤔';
+            verdictText.textContent = '匹配质量：一般，可尝试';
         } else {
-            verdictIcon.textContent = '馃憥';
-            verdictText.textContent = '鍖归厤璐ㄩ噺锛氫笉寤鸿鎺ㄨ崘';
+            verdictIcon.textContent = '👎';
+            verdictText.textContent = '匹配质量：不建议推荐';
         }
     }
 
@@ -190,7 +190,7 @@
                 algoTag.value = 25;
                 algoOther.value = 15;
                 updateAlgoDisplay();
-                showToast('鏉冮噸宸叉仮澶嶄负 V1.1 榛樿鍊?, 'success');
+                showToast('权重已恢复为 V1.1 默认值', 'success');
             });
         }
 
@@ -207,13 +207,13 @@
     // App state
     var currentScreen = 'home';
     var mockupPosts = [
-        { id: 1, icon: '馃嵅', title: '鍛ㄥ洓鏅?4 浜虹伀閿?, category: '鎷奸', location: '涓滃煄鍖?, time: '21:00', distance: '3.2km', subtitle: '杞荤ぞ浜ょ伀閿咃紝娆㈣繋瀛︾敓鍏?, budget: '80-120 鍏?, vibe: '杞绘澗鑱婂ぉ' },
-        { id: 2, icon: '馃弮', title: '鍛ㄤ簲鏅?5km 澶滆窇', category: '杩愬姩', location: '瑗垮煄鍖?, time: '19:30', distance: '1.8km', subtitle: '鎱㈣窇鑺傚锛岀儹鐖辫繍鍔ㄧ殑浣?, intensity: '涓害', exp: '鏂版墜鍙嬪ソ' },
-        { id: 3, icon: '馃幀', title: '鍛ㄥ叚涓嬪崍 鐢靛奖绾︾湅', category: '瑙傚奖', location: '鏈濋槼鍖?, time: '16:00', distance: '2.1km', subtitle: '鏂扮墖鍥㈣亰锛岀湅瀹屼竴璧疯瘎浠?, price: '50-80 鍏?, genre: '鍠滃墽/鍓ф儏' },
-        { id: 4, icon: '鈽?, title: '鍛ㄤ簲鏅?鍜栧暋鎺㈠簵', category: '鎺㈠簵', location: '娴锋穩鍖?, time: '20:00', distance: '4.0km', subtitle: '灏忎紬鐜锛岄€傚悎杞绘澗鑱婂ぉ', budget: '60-100 鍏?, type: '鍜栧暋鍘? }
+        { id: 1, icon: '🍲', title: '周四晚 4 人火锅', category: '拼餐', location: '东城区', time: '21:00', distance: '3.2km', subtitle: '轻社交火锅，欢迎学生党', budget: '80-120 元', vibe: '轻松聊天' },
+        { id: 2, icon: '🏃', title: '周五晚 5km 夜跑', category: '运动', location: '西城区', time: '19:30', distance: '1.8km', subtitle: '慢跑节奏，热爱运动的你', intensity: '中度', exp: '新手友好' },
+        { id: 3, icon: '🎬', title: '周六下午 电影约看', category: '观影', location: '朝阳区', time: '16:00', distance: '2.1km', subtitle: '新片团聊，看完一起评价', price: '50-80 元', genre: '喜剧/剧情' },
+        { id: 4, icon: '☕', title: '周五晚 咖啡探店', category: '探店', location: '海淀区', time: '20:00', distance: '4.0km', subtitle: '小众环境，适合轻松聊天', budget: '60-100 元', type: '咖啡厅' }
     ];
 
-    var categories = ['鎷奸', '杩愬姩', '瑙傚奖', '鎺㈠簵', '瀛︿範', '娓告垙'];
+    var categories = ['拼餐', '运动', '观影', '探店', '学习', '游戏'];
     var selectedMockupCategory = null;
     var selectedMockupPost = null;
 
@@ -229,7 +229,7 @@
         // Status bar
         var statusBar = document.createElement('div');
         statusBar.className = 'phone-status-bar';
-        statusBar.innerHTML = '<span>9:41</span><span>馃摱 馃攱</span>';
+        statusBar.innerHTML = '<span>9:41</span><span>📶 🔋</span>';
         screen.appendChild(statusBar);
 
         // Render based on current screen
@@ -246,9 +246,9 @@
         bottomNav.className = 'phone-bottom-nav';
 
         var navItems = [
-            { tab: 'home', icon: '馃彔', label: '棣栭〉' },
-            { tab: 'chat', icon: '馃挰', label: '娑堟伅' },
-            { tab: 'profile', icon: '馃懁', label: '鎴戠殑' }
+            { tab: 'home', icon: '🏠', label: '首页' },
+            { tab: 'chat', icon: '💬', label: '消息' },
+            { tab: 'profile', icon: '👤', label: '我的' }
         ];
 
         navItems.forEach(function (item) {
@@ -271,7 +271,7 @@
 
                 if (item.tab === 'chat') {
                     setTimeout(function () {
-                        showToast('馃挰 鍗虫椂閫氳鍔熻兘婕旂ず', 'success');
+                        showToast('💬 即时通讯功能演示', 'success');
                     }, 400);
                 }
             });
@@ -287,14 +287,14 @@
         // Header
         var header = document.createElement('div');
         header.className = 'phone-header';
-        header.innerHTML = '<h3>馃彔 鎼瓙鎴愯</h3><span class="phone-header-icon">馃攳</span>';
+        header.innerHTML = '<h3>🏠 搭子成行</h3><span class="phone-header-icon">🔍</span>';
         screen.appendChild(header);
 
         // Welcome banner
         if (!selectedMockupCategory) {
             var banner = document.createElement('div');
             banner.style.cssText = 'padding:6px 18px 2px;font-size:12px;color:#999;';
-            banner.textContent = '馃憢 鐐瑰嚮涓嬫柟鍒嗙被寮€濮嬫帰绱?;
+            banner.textContent = '👋 点击下方分类开始探索';
             screen.appendChild(banner);
         }
 
@@ -310,7 +310,7 @@
                 selectedMockupCategory = (selectedMockupCategory === cat) ? null : cat;
                 refreshMockup();
                 if (selectedMockupCategory) {
-                    showToast('宸茬瓫閫夛細' + selectedMockupCategory, 'success');
+                    showToast('已筛选：' + selectedMockupCategory, 'success');
                 }
             });
             catRow.appendChild(pill);
@@ -325,7 +325,7 @@
         if (displayPosts.length === 0) {
             var empty = document.createElement('div');
             empty.style.cssText = 'padding:40px 18px;text-align:center;font-size:13px;color:#ccc;';
-            empty.textContent = '璇ュ垎绫绘殏鏃犲尮閰?;
+            empty.textContent = '该分类暂无匹配';
             screen.appendChild(empty);
         }
 
@@ -354,7 +354,7 @@
         // Back button
         var header = document.createElement('div');
         header.className = 'phone-header';
-        header.innerHTML = '<span class="phone-header-icon" style="cursor:pointer;">鈫?杩斿洖</span><span style="font-size:12px;color:#999;">璇︽儏</span><span></span>';
+        header.innerHTML = '<span class="phone-header-icon" style="cursor:pointer;">← 返回</span><span style="font-size:12px;color:#999;">详情</span><span></span>';
         header.querySelector('.phone-header-icon').addEventListener('click', function (e) {
             e.stopPropagation();
             currentScreen = 'home';
@@ -369,32 +369,32 @@
         detail.innerHTML =
             '<span class="phone-detail-tag">' + post.category + '</span>' +
             '<h3>' + post.icon + ' ' + post.title + '</h3>' +
-            '<p class="phone-detail-desc">鍦扮偣锛? + post.location + ' | 鏃堕棿锛? + post.time + ' | 2/4 浜?/p>';
+            '<p class="phone-detail-desc">地点：' + post.location + ' | 时间：' + post.time + ' | 2/4 人</p>';
 
         // Info rows
         var infoGrid = document.createElement('div');
         infoGrid.className = 'phone-info-row';
 
         var infoItems = [];
-        if (post.category === '鎷奸') {
+        if (post.category === '拼餐') {
             infoItems = [
-                '<strong>棰勭畻</strong><span>' + post.budget + '</span>',
-                '<strong>姘涘洿</strong><span>' + post.vibe + '</span>'
+                '<strong>预算</strong><span>' + post.budget + '</span>',
+                '<strong>氛围</strong><span>' + post.vibe + '</span>'
             ];
-        } else if (post.category === '杩愬姩') {
+        } else if (post.category === '运动') {
             infoItems = [
-                '<strong>寮哄害</strong><span>' + post.intensity + '</span>',
-                '<strong>缁忛獙</strong><span>' + post.exp + '</span>'
+                '<strong>强度</strong><span>' + post.intensity + '</span>',
+                '<strong>经验</strong><span>' + post.exp + '</span>'
             ];
-        } else if (post.category === '瑙傚奖') {
+        } else if (post.category === '观影') {
             infoItems = [
-                '<strong>绁ㄤ环</strong><span>' + post.price + '</span>',
-                '<strong>绫诲瀷</strong><span>' + post.genre + '</span>'
+                '<strong>票价</strong><span>' + post.price + '</span>',
+                '<strong>类型</strong><span>' + post.genre + '</span>'
             ];
         } else {
             infoItems = [
-                '<strong>棰勭畻</strong><span>' + (post.budget || '50-100鍏?) + '</span>',
-                '<strong>绫诲瀷</strong><span>' + (post.type || '鎺㈠簵') + '</span>'
+                '<strong>预算</strong><span>' + (post.budget || '50-100元') + '</span>',
+                '<strong>类型</strong><span>' + (post.type || '探店') + '</span>'
             ];
         }
 
@@ -410,7 +410,7 @@
         // Note
         var note = document.createElement('div');
         note.className = 'phone-detail-note';
-        note.textContent = post.subtitle + '銆傛湡寰呭叴瓒ｇ浉鎶曠殑浣犲姞鍏ワ紒';
+        note.textContent = post.subtitle + '。期待兴趣相投的你加入！';
         detail.appendChild(note);
 
         // Action buttons
@@ -419,16 +419,16 @@
 
         var joinBtn = document.createElement('button');
         joinBtn.className = 'phone-btn phone-btn-primary';
-        joinBtn.textContent = appliedPostId === post.id ? '宸茬敵璇?鉁? : '鎴戣鍙傚姞';
+        joinBtn.textContent = appliedPostId === post.id ? '已申请 ✓' : '我要参加';
 
         joinBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             if (appliedPostId === post.id) return;
             appliedPostId = post.id;
-            joinBtn.textContent = '宸茬敵璇?鉁?;
+            joinBtn.textContent = '已申请 ✓';
             joinBtn.disabled = true;
             joinBtn.style.opacity = '0.7';
-            showToast('鎶ュ悕鎴愬姛锛佺瓑寰呭鏂圭‘璁?, 'success');
+            showToast('报名成功！等待对方确认', 'success');
 
             // Auto-navigate to chat after short delay to complete the demo flow
             setTimeout(function () {
@@ -438,12 +438,12 @@
 
         var chatBtn = document.createElement('button');
         chatBtn.className = 'phone-btn phone-btn-outline';
-        chatBtn.textContent = '绉佽亰TA';
+        chatBtn.textContent = '私聊TA';
 
         chatBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             if (!appliedPostId || appliedPostId !== post.id) {
-                showToast('璇峰厛鎶ュ悕鍐嶇鑱?, 'warning');
+                showToast('请先报名再私聊', 'warning');
                 return;
             }
             currentScreen = 'chat';
@@ -462,7 +462,7 @@
         // Header
         var header = document.createElement('div');
         header.className = 'phone-header';
-        header.innerHTML = '<span class="phone-header-icon" style="cursor:pointer;">鈫?杩斿洖</span><h3 style="font-size:15px;">灏忚悓</h3><span class="phone-header-icon">馃摓</span>';
+        header.innerHTML = '<span class="phone-header-icon" style="cursor:pointer;">← 返回</span><h3 style="font-size:15px;">小萌</h3><span class="phone-header-icon">📞</span>';
         header.querySelector('.phone-header-icon').addEventListener('click', function (e) {
             e.stopPropagation();
             currentScreen = 'home';
@@ -474,17 +474,17 @@
         chat.className = 'phone-chat';
 
         chat.innerHTML =
-            '<div class="phone-chat-time">浠婂ぉ 18:24</div>' +
-            '<div class="phone-chat-bubble theirs">浣犲ソ锛佺湅鍒颁綘鐨勭伀閿呴個绾︼紝鎴戜篃鎯冲姞鍏 馃嵅</div>' +
-            '<div class="phone-chat-bubble mine">娆㈣繋锛佹垜浠懆鍥涙櫄 9 鐐瑰湪鍥借锤纰伴潰锛岀洰鍓嶅凡缁忔湁 2 涓汉浜?/div>' +
-            '<div class="phone-chat-bubble theirs">澶ソ浜嗭紒鏈変粈涔堝繉鍙ｅ悧锛熸垜姣旇緝鑳藉悆杈?馃尪锔?/div>' +
-            '<div class="phone-chat-bubble mine">娌￠棶棰橈紒鎴戜篃鏄棤杈ｄ笉娆€傚埌鏃跺€欒锛?/div>' +
-            '<div class="phone-chat-time">瀵规柟宸茬‘璁ゅ弬鍔?/div>';
+            '<div class="phone-chat-time">今天 18:24</div>' +
+            '<div class="phone-chat-bubble theirs">你好！看到你的火锅邀约，我也想加入~ 🍲</div>' +
+            '<div class="phone-chat-bubble mine">欢迎！我们周四晚 9 点在国贸碰面，目前已经有 2 个人了</div>' +
+            '<div class="phone-chat-bubble theirs">太好了！有什么忌口吗？我比较能吃辣 🌶️</div>' +
+            '<div class="phone-chat-bubble mine">没问题！我也是无辣不欢。到时候见！</div>' +
+            '<div class="phone-chat-time">对方已确认参加</div>';
 
         if (!conversationStarted) {
             chat.innerHTML =
                 '<div style="text-align:center;padding:60px 20px;color:#ccc;font-size:13px;">' +
-                '鏆傛棤鑱婂ぉ璁板綍<br><span style="font-size:11px;">鎶ュ悕鍚庡嵆鍙笌鎼瓙娌熼€?/span>' +
+                '暂无聊天记录<br><span style="font-size:11px;">报名后即可与搭子沟通</span>' +
                 '</div>';
         }
 
