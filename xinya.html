@@ -379,7 +379,7 @@
   <div class="proto-demo-grid">
     <!-- Phone Mockup -->
     <div class="phone-wrap">
-      <div class="phone" style="box-shadow:0 12px 40px rgba(0,0,0,.15);">
+      <div class="phone" id="phoneShell" style="box-shadow:0 12px 40px rgba(0,0,0,.15);">
         <div class="phone-notch"></div>
         <div class="screen-wrap">
 
@@ -552,6 +552,11 @@ var breathingTimer = null;
   badge.style.cssText = "position:fixed;bottom:12px;right:12px;background:#22C55E;color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;z-index:9999;pointer-events:none;";
   badge.textContent = "JS OK v4";
   document.body.appendChild(badge);
+  // Diagnostic: check if phone receives clicks
+  var phone = document.getElementById("phoneShell");
+  if (phone) {
+    phone.onclick = function(e) { badge.textContent = "PHONE CLICKED! v4"; badge.style.background = "#FF6B6B"; };
+  }
 })();
 
 // Initialize first screen
